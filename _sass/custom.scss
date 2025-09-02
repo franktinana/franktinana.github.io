@@ -8,3 +8,17 @@
 .sidebar h3 { margin:.25rem 0 .5rem; }
 .content article { max-width: 100%; }
 .meta { color:#666; font-size:.9em; }
+
+/* ===== Custom research look ===== */
+h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #222;
+  padding-bottom: .25rem;
+}
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2rem;
+}
