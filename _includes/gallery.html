@@ -1,0 +1,16 @@
+{% comment %}
+Usage:
+{% include gallery.html images=page.images %}
+Each image item supports:
+- src:   "/assets/img/experiments/macs-j0138/f160w.png"
+- alt:   "HST F160W"
+- caption:"HST WFC3/IR F160W drizzled preview"
+{% endcomment %}
+<div class="gallery">
+  {% for im in include.images %}
+  <figure>
+    <a href="{{ im.src }}"><img src="{{ im.src }}" alt="{{ im.alt | default: '' }}"></a>
+    {% if im.caption %}<figcaption>{{ im.caption }}</figcaption>{% endif %}
+  </figure>
+  {% endfor %}
+</div>
