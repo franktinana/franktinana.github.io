@@ -1,9 +1,9 @@
 - date: 2025-08-29
-  title: "Temporal Lensing Theory: Working Hypothesis"
-  summary: "Defined DM–time coupling; chose NFW; identified observables."
+  title: "Working hypothesis"
+  summary: "Defined DM–time coupling; chose NFW; listed observables."
 - date: 2025-08-31
-  title: "Data Pull: MACS J0138"
-  summary: "MAST/HST cutouts retrieved; starter NFW lensing script tested."
+  title: "Data pull"
+  summary: "MAST/HST cutouts; starter NFW lensing script run."
 - date: 2025-09-01
-  title: "Website Scaffolding"
-  summary: "Processes collection, live status, and timeline page."
+  title: "Research site v1"
+  summary: "Scientific sections, status widget, and timeline online."

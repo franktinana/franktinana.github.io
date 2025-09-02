@@ -1,8 +1,8 @@
 phase: "Experimentation"
-step: "NFW lensing fit for MACS J0138 + status cross-check"
+step: "NFW lensing fit for MACS J0138 + cross-checks"
 percent_complete: 42
 last_update: "2025-09-01"
 next_actions:
-  - "Extract θ_E & NFW (ρ_s, r_s) from recent papers"
-  - "Run signed residual test on BH/GW datasets"
+  - "Extract θ_E and NFW (ρ_s, r_s) from literature and our fit"
+  - "Run signed residual tests on BH/GW datasets"
   - "Draft falsification notes and preprint outline"

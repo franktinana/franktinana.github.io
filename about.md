@@ -3,4 +3,6 @@ layout: page
 title: About
 permalink: /about/
 ---
-Tinana Labs documents an open research journey into **temporal lensing** and **dark matter halo models** (e.g., NFW). Failures included—falsification is progress.
+Tinana Labs is a public research log by Frank Tinana, assisted by Lyra (AI),
+exploring **temporal lensing** and its interaction with **dark matter**.
+We publish methods, data provenance, and falsification results.

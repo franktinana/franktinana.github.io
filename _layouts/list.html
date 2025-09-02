@@ -1,9 +1,12 @@
 ---
 layout: default
 ---
-<h1>{{ page.title }}</h1>
-<ul>
-  {% for item in site.processes %}
-    <li><a href="{{ item.url | relative_url }}">{{ item.title }}</a> — {{ item.summary }}</li>
-  {% endfor %}
-</ul>
+<article>
+  <h1>{{ page.title }}</h1>
+  <ul>
+    {% assign coll = site[page.list_collection] | sort: 'title' %}
+    {% for item in coll %}
+      <li><a href="{{ item.url | relative_url }}">{{ item.title }}</a>{% if item.summary %} — {{ item.summary }}{% endif %}</li>
+    {% endfor %}
+  </ul>
+</article>
