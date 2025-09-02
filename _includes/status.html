@@ -1,0 +1,14 @@
+{% assign s = site.data.status %}
+<section aria-label="Project Status" style="padding:1rem;border:1px solid #ddd;border-radius:12px;">
+  <h2 style="margin-top:0;">Current Status</h2>
+  <p><strong>Phase:</strong> {{ s.phase }}<br>
+     <strong>Step:</strong> {{ s.step }}<br>
+     <strong>Updated:</strong> {{ s.last_update }}</p>
+  <div style="background:#eee;height:10px;border-radius:6px;overflow:hidden;margin:0.5rem 0 1rem;">
+    <div style="height:10px;width:{{ s.percent_complete }}%;"></div>
+  </div>
+  <details>
+    <summary><strong>Next actions</strong></summary>
+    <ul>{% for a in s.next_actions %}<li>{{ a }}</li>{% endfor %}</ul>
+  </details>
+</section>

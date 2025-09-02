@@ -1,0 +1,7 @@
+<nav class="site-nav" style="margin: 1rem 0;">
+  {% assign items = site.nav %}
+  {% for item in items %}
+    <a href="{{ item.url | relative_url }}" style="margin-right:1rem;">{{ item.title }}</a>
+  {% endfor %}
+</nav>
+<hr>

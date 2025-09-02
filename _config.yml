@@ -1,0 +1,22 @@
+title: Tinana Labs
+description: Notes on temporal lensing, dark matter (NFW), and falsification.
+url: "https://tinanalabs.com"
+baseurl: ""
+theme: minima
+collections:
+  processes:
+    output: true
+    permalink: /processes/:name/
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+markdown: kramdown
+nav:
+  - title: Home
+    url: /
+  - title: Processes
+    url: /processes/
+  - title: Timeline
+    url: /timeline/
+  - title: About
+    url: /about/
