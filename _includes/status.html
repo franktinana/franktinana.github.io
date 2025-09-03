@@ -1,9 +1,9 @@
 {% assign s = site.data.status %}
 <section class="status">
   <h3>Current Status</h3>
-  <p><strong>Phase:</strong> {{ s.phase }}<br>
-     <strong>Step:</strong> {{ s.step }}<br>
-     <span class="meta">Updated: {{ s.last_update }}</span></p>
+  <p class="meta"><strong>Phase:</strong> {{ s.phase }}<br>
+  <strong>Step:</strong> {{ s.step }}<br>
+  Updated: {{ s.last_update }}</p>
   <div class="bar"><div class="fill" style="width:{{ s.percent_complete }}%"></div></div>
   {% if s.next_actions %}
   <ul class="meta">{% for a in s.next_actions %}<li>{{ a }}</li>{% endfor %}</ul>

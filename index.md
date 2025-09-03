@@ -1,20 +1,20 @@
 ---
 layout: default
 title: Tinana Labs
-subtitle: "Open research into temporal lensing, dark matter halos, and testable consequences."
 ---
 
 # Open research into <span style="color:#7aa2ff">temporal lensing</span>, dark matter halos, & testable consequences
 
-We investigate whether time-dilation in regions of high dark-matter density produces
-measurable deviations in standard lensing observables. Our approach is strictly empirical:
-define a correction, confront data, and *keep failures* public.
+We investigate whether time-dilation in regions of high dark-matter density
+produces measurable deviations in standard lensing observables. Our approach is
+strictly empirical: define a correction, confront data, and *keep failures* public.
 
 <div class="card">
   <h2>Mission</h2>
-  <p>Test whether a correction tied to the NFW halo parameters (<em>ρ<sub>s</sub>, r<sub>s</sub></em>) subtly
-  modifies time dilation and, in turn, lensing observables like θ<sub>E</sub> and κ(R). The program prioritizes
-  falsification across clusters, black-hole reverberation sets, and gravitational-wave timing residuals.</p>
+  <p>Test whether a correction tied to the NFW halo parameters <em>(ρ<sub>s</sub>, r<sub>s</sub>)</em>
+  subtly modifies time dilation and, in turn, lensing observables like θ<sub>E</sub> and κ(R).
+  The program prioritizes falsification across clusters, black-hole reverberation sets, and
+  gravitational-wave timing residuals.</p>
 </div>
 
 <div class="card">
@@ -31,9 +31,9 @@ define a correction, confront data, and *keep failures* public.
 <div class="card">
   <h2>Why it matters (implications if signal is real)</h2>
   <ul>
-    <li><strong>Lensing systematics:</strong> Refined mass modeling in clusters &amp; galaxies.</li>
-    <li><strong>Cosmological inference:</strong> Bias checks for H<sub>0</sub> and growth parameters.</li>
-    <li><strong>Accretion physics:</strong> Subtle timing offsets near dense halos.</li>
+    <li><strong>Lensing systematics:</strong> refined mass modeling in clusters &amp; galaxies.</li>
+    <li><strong>Cosmological inference:</strong> bias checks for H<sub>0</sub> and growth parameters.</li>
+    <li><strong>Accretion physics:</strong> subtle timing offsets near dense halos.</li>
   </ul>
 </div>
 
@@ -51,7 +51,12 @@ define a correction, confront data, and *keep failures* public.
   <h2>Near-term roadmap</h2>
   <ul>
     <li>Finalize literature-consistent NFW fits for MACS J0138; publish comparison plots.</li>
-    <li>Lock BH/GW CSVs (provenance + versioning); re-run residual analysis.</li>
+    <li>Lock BH/GW CSVs (provenance + versioning), re-run residual analysis.</li>
     <li>Draft &amp; submit the preprint; track feedback and counter-examples.</li>
   </ul>
+</div>
+
+<div class="card">
+  <h2>Publications</h2>
+  <p>📄 <a class="underline" href="/assets/preprints/tinanalabs-preprint.pdf">Temporal Lensing — Working Hypothesis (PDF)</a></p>
 </div>

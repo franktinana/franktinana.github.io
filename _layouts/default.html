@@ -8,33 +8,31 @@
 </head>
 <body>
 <header>
-  <h1 style="margin-bottom:.25rem;"><a href="{{ '/' | relative_url }}" style="text-decoration:none;color:inherit;">{{ site.title }}</a></h1>
-  <p class="meta" style="margin-top:0;">{{ site.description }}</p>
-  {% include nav.html %}
-  <hr>
+  <nav class="site-nav">
+    <a href="{{ '/experiments/' | relative_url }}">Experiments</a>
+    <a href="{{ '/processes/'   | relative_url }}">Processes</a>
+    <a href="{{ '/datasets/'    | relative_url }}">Datasets</a>
+    <a href="{{ '/publications/'| relative_url }}">Publications</a>
+    <a href="{{ '/notes/'       | relative_url }}">Lab Notes</a>
+  </nav>
 </header>
-
 <main class="layout-grid">
   <aside class="sidebar">
-    <div class="box">{% include status.html %}</div>
-    <div class="box card">
+    {% include status.html %}
+    <div class="card" style="margin-top:1rem">
       <h3>Quick Links</h3>
-      <ul>
-        <li><a href="{{ '/experiments/' | relative_url }}">Experiments</a></li>
-        <li><a href="{{ '/processes/'   | relative_url }}">Processes</a></li>
-        <li><a href="{{ '/datasets/'    | relative_url }}">Datasets</a></li>
-        <li><a href="{{ '/publications/'| relative_url }}">Publications</a></li>
-        <li><a href="{{ '/notes/'       | relative_url }}">Lab Notes</a></li>
-      </ul>
+      <div><a href="/experiments/">Experiments</a></div>
+      <div><a href="/processes/">Processes</a></div>
+      <div><a href="/datasets/">Datasets</a></div>
+      <div><a href="/publications/">Publications</a></div>
+      <div><a href="/notes/">Lab Notes</a></div>
     </div>
   </aside>
-
   <section>
     {{ content }}
   </section>
 </main>
-
-<footer class="meta" style="margin-top:3rem;">
+<footer class="meta" style="margin-top:2rem">
   <hr>
   <p>&copy; {{ "now" | date: "%Y" }} Tinana Labs</p>
 </footer>

@@ -1,66 +1,25 @@
-/* ===== Tinana Labs Dark Theme ===== */
 :root{
-  --bg-1:#050913;           /* deep space blue/black */
-  --bg-2:#0a0f25;           /* subtle gradient */
-  --card:#0f142b;
-  --ink:#f2f5ff;            /* main text (white-ish) */
-  --ink-2:#b9c0d4;          /* secondary text */
-  --accent:#7aa2ff;         /* links, accents */
-  --border:#1b2344;
+  --bg-1:#050913; --bg-2:#0a0f25; --card:#0f142b; --ink:#f2f5ff; --ink-2:#b9c0d4;
+  --accent:#7aa2ff; --border:#1b2344;
 }
+html,body{background:radial-gradient(1200px 800px at 20% -10%,var(--bg-2),var(--bg-1)) fixed;min-height:100%}
+body{color:var(--ink);max-width:1100px;margin:2rem auto;padding:0 1rem;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
 
-html,body{background: radial-gradient(1200px 800px at 20% -10%, var(--bg-2), var(--bg-1)) fixed; min-height:100%;}
-body{
-  color:var(--ink);
-  max-width:1100px;
-  margin:2rem auto;
-  padding:0 1rem;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-}
-
-/* Headings & links */
-h1{font-size:2.6rem;font-weight:900;margin:.2rem 0 1rem;border-bottom:2px solid var(--border);padding-bottom:.35rem;}
-h2{font-size:1.6rem;font-weight:700;margin-top:2rem;}
-h3{font-size:1.2rem;font-weight:700;margin-top:1.25rem;}
-a{color:var(--accent);text-decoration:none;}
-a:hover{text-decoration:underline;}
-
-/* Header nav */
-.site-nav a{color:var(--ink);opacity:.85}
-.site-nav a:hover{opacity:1}
-
-/* Cards/sections */
-.card{
-  background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:1rem 1.2rem;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25);
-}
+a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+h1{font-size:2.6rem;font-weight:900;margin:.2rem 0 1rem}
+h2{font-size:1.6rem;font-weight:800;margin:0 0 .75rem 0}
+h3{font-size:1.1rem;font-weight:800;margin:0 0 .5rem 0}
 .meta{color:var(--ink-2)}
 
-/* Status widget */
-.status{ border:1px solid var(--border); border-radius:14px; padding:1rem; background:rgba(10,15,37,.55);}
-.status .bar{ background:#1b2344; height:10px; border-radius:6px; overflow:hidden; margin:.5rem 0 1rem;}
-.status .fill{ height:10px; background:var(--accent);}
+.site-nav a{color:var(--ink);opacity:.9;margin-right:1rem} .site-nav a:hover{opacity:1}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  border:1px solid var(--border);border-radius:16px;padding:1rem 1.2rem;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.layout-grid{display:grid;grid-template-columns:320px 1fr;gap:1.5rem}
+.sidebar{position:sticky;top:1rem;height:fit-content}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{display:inline-flex;align-items:center;border:1px solid var(--border);background:rgba(255,255,255,.06);
+  border-radius:999px;padding:.25rem .7rem;color:var(--ink);font-size:.9rem}
 
-/* Two-column layout */
-.layout-grid{ display:grid; grid-template-columns: 290px 1fr; gap: 2rem; }
-.sidebar{ position:sticky; top:1rem; height:fit-content; }
-.sidebar .box{ margin-bottom:1rem; }
-
-/* Chips */
-.chips{display:flex;flex-wrap:wrap;gap:.5rem;}
-.chip{display:inline-flex;align-items:center;border:1px solid var(--border);background:rgba(255,255,255,.05);border-radius:999px;padding:.25rem .7rem;color:var(--ink);font-size:.9rem}
-
-/* Gallery */
-.gallery{ display:grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap:14px; margin:1rem 0 2rem;}
-.gallery figure{ margin:0; border:1px solid var(--border); border-radius:12px; overflow:hidden; background:var(--card); }
-.gallery img{ display:block; width:100%; height:auto;}
-.gallery figcaption{ font-size:.9rem; color:var(--ink-2); padding:.5rem .75rem; border-top:1px solid var(--border);}
-
-/* Tables, code, hr */
-table{border-collapse:collapse;width:100%;}
-th,td{border:1px solid var(--border);padding:.5rem;}
-hr{border:0;border-top:1px solid var(--border);margin:1.5rem 0;}
-pre,code{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;}
+.status{border:1px solid var(--border);border-radius:16px;padding:1rem;background:rgba(10,15,37,.55)}
+.status .bar{background:#1b2344;height:8px;border-radius:6px;overflow:hidden;margin:.4rem 0 .7rem}
+.status .fill{height:8px;background:var(--accent)}
