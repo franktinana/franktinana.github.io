@@ -32,3 +32,18 @@ h3{font-size:1.1rem;font-weight:800;margin:0 0 .5rem}
 .nav a:hover  { opacity:1; text-decoration:underline; }
 /* fallback spacing if gap not supported */
 .nav a:not(:last-child){ margin-right:1.5rem; }
+
+/* Force nav spacing */
+.nav {
+  display: flex;
+  gap: 1.5rem !important; /* modern browsers */
+}
+
+.nav a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
