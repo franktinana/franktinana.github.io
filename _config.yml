@@ -1,31 +1,21 @@
 title: Tinana Labs
-description: Scientific notes on temporal lensing, dark matter (NFW), and falsification.
+description: Open research into temporal lensing, dark matter halos, and testable consequences.
 url: "https://tinanalabs.com"
 baseurl: ""
 theme: minima
-
-# Collections (each renders to its own section)
 collections:
   experiments:  { output: true, permalink: /experiments/:name/ }
   publications: { output: true, permalink: /publications/:name/ }
   datasets:     { output: true, permalink: /datasets/:name/ }
   processes:    { output: true, permalink: /processes/:name/ }
-  notes:        { output: true, permalink: /notes/:name/ }  # lab notebook posts
-
-# Plugins supported by GitHub Pages
+  notes:        { output: true, permalink: /notes/:name/ }
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-
 markdown: kramdown
-
-# Global nav shown in the header
 nav:
-  - { title: "Home",         url: "/" }
-  - { title: "Timeline",     url: "/timeline/" }
   - { title: "Experiments",  url: "/experiments/" }
   - { title: "Processes",    url: "/processes/" }
   - { title: "Datasets",     url: "/datasets/" }
   - { title: "Publications", url: "/publications/" }
   - { title: "Lab Notes",    url: "/notes/" }
-  - { title: "About",        url: "/about/" }
