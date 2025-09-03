@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dataset: MACS J0138 — MAST/HST (First Pass)</title>
+<meta name="description" content="Exact files and provenance for the MACS J0138 first-pass dataset used in the NFW lensing setup." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12; --fg:#e8eef7; --muted:#a7b3c7; --card:#121722; --line:#1f2633; --accent:#72d0ff;
+    --ok:#7de0a5; --warn:#ffd479; --bad:#ff9aa2;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px}
+  header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+  h1{font-size:28px;margin:0;letter-spacing:.2px}
+  h2{font-size:20px;margin:18px 0 10px}
+  h3{font-size:16px;margin:14px 0 8px}
+  .muted{color:var(--muted)}
+  .card{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#111623,#0c1019);padding:16px;margin:16px 0}
+  .kv{display:grid;grid-template-columns:160px 1fr;gap:10px;font-size:14px}
+  .kv div{padding:6px 10px;border-bottom:1px solid var(--line)}
+  .kv div:nth-child(odd){color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+  .col-12{grid-column:span 12}
+  @media(min-width:900px){.col-6{grid-column:span 6}}
+  .code{font-family:var(--mono);background:#0d121b;border:1px solid var(--line);border-radius:12px;padding:12px;overflow:auto}
+  table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  th, td{padding:8px 10px;border-bottom:1px solid var(--line);font-size:14px}
+  th{background:#0e1420;text-align:left}
+  tr:nth-child(even){background:#0e1420}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px dashed var(--line);border-radius:12px;color:var(--muted)}
+  .thumbs{display:flex;flex-wrap:wrap;gap:8px}
+  .thumbs img{display:block;width:220px;max-width:100%;border:1px solid var(--line);border-radius:12px}
+  .small{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Dataset: MACS J0138 — MAST/HST (First Pass)</h1>
+        <div class="muted">Exact files and provenance used to build the lensing cutouts and NFW sweep for <em>MACS J0138.0−2155</em>.</div>
+      </div>
+      <div class="pill">Last updated: 2025‑09‑03</div>
+    </header>
+
+    <section class="card">
+      <h2>Overview</h2>
+      <p>This page inventories the precise inputs used for the first-pass lensing setup: HST cutout FITS for IR/optical filters, preview PNGs, BCG center, and the outputs from the NFW sweep and BCG profile fits. It is intended to be <strong>reproducible</strong> and <strong>auditable</strong>. Links below assume these files are published under <code>/data/macs_j0138</code> on the site; local provenance under <code>~/ratio_test/data</code> is also shown.</p>
+      <div class="grid">
+        <div class="col-6 card">
+          <h3>Key run parameters (from first pass)</h3>
+          <div class="kv">
+            <div>Lens redshift z<sub>L</sub></div><div>0.336 (cluster)</div>
+            <div>Source redshift z<sub>S</sub></div><div>1.949 (SN host)</div>
+            <div>Angular scale</div><div>≈ 4.962 kpc/arcsec</div>
+            <div>θ<sub>E</sub> (solved)</div><div>≈ 13.0326 arcsec</div>
+            <div>R<sub>E</sub></div><div>≈ 64.67 kpc</div>
+            <div>Family</div><div>NFW (grid over r<sub>s</sub>, ρ<sub>s</sub>)</div>
+          </div>
+          <div class="small" style="margin-top:8px">Values shown are the outputs recorded in <code>nfw_run_summary.txt</code> from the local run.</div>
+        </div>
+        <div class="col-6 card">
+          <h3>At‑a‑glance</h3>
+          <ul>
+            <li>HST IR: F105W, F110W, F125W, F160W (WFC3/IR)</li>
+            <li>HST optical: F555W (ACS/WFC)</li>
+            <li>Skycell mosaics for context (p0802x16y11)</li>
+            <li>BCG center text file for WCS anchoring</li>
+            <li>NFW sweep CSVs + diagnostic plots</li>
+            <li>BCG radial profile + Sérsic fit</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Files used (published)</h2>
+      <p>These files are referenced by the experiment and should exist on the site under <code>/data/macs_j0138</code>. If you are browsing the repo, they originate from <code>~/ratio_test/data/macs_j0138</code>.</p>
+      <table>
+        <thead>
+          <tr><th>Path</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="/data/macs_j0138/hst_14496_01_wfc3_ir_f105w_id3w01_drz_cutout.fits">hst_14496_01_wfc3_ir_f105w_id3w01_drz_cutout.fits</a></td><td>F105W cutout (WFC3/IR)</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_14496_01_wfc3_ir_f160w_id3w01_drz_cutout.fits">hst_14496_01_wfc3_ir_f160w_id3w01_drz_cutout.fits</a></td><td>F160W cutout (WFC3/IR)</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_14496_01_wfc3_ir_total_id3w01_drz_cutout.fits">hst_14496_01_wfc3_ir_total_id3w01_drz_cutout.fits</a></td><td>IR total (ID3W01) cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_14496_02_acs_wfc_f555w_jd3w02_drc_cutout.fits">hst_14496_02_acs_wfc_f555w_jd3w02_drc_cutout.fits</a></td><td>F555W cutout (ACS/WFC)</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_14496_02_acs_wfc_total_jd3w02_drc_cutout.fits">hst_14496_02_acs_wfc_total_jd3w02_drc_cutout.fits</a></td><td>ACS total (JD3W02) cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_15663_2a_wfc3_ir_f110w_idxu2a_drz_cutout.fits">hst_15663_2a_wfc3_ir_f110w_idxu2a_drz_cutout.fits</a></td><td>F110W cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_15663_2a_wfc3_ir_total_idxu2a_drz_cutout.fits">hst_15663_2a_wfc3_ir_total_idxu2a_drz_cutout.fits</a></td><td>IR total (IDXU2A) cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_15663_2b_wfc3_ir_total_idxu2b_drz_cutout.fits">hst_15663_2b_wfc3_ir_total_idxu2b_drz_cutout.fits</a></td><td>IR total (IDXU2B) cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_15663_2c_wfc3_ir_f125w_idxu2c_drz_cutout.fits">hst_15663_2c_wfc3_ir_f125w_idxu2c_drz_cutout.fits</a></td><td>F125W cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_15663_2c_wfc3_ir_total_idxu2c_drz_cutout.fits">hst_15663_2c_wfc3_ir_total_idxu2c_drz_cutout.fits</a></td><td>IR total (IDXU2C) cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_15663_2d_wfc3_ir_total_idxu2d_drz_cutout.fits">hst_15663_2d_wfc3_ir_total_idxu2d_drz_cutout.fits</a></td><td>IR total (IDXU2D) cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_16264_31_wfc3_ir_f105w_iebc31_drz_cutout.fits">hst_16264_31_wfc3_ir_f105w_iebc31_drz_cutout.fits</a></td><td>F105W cutout (IEBC31)</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_16264_31_wfc3_ir_f125w_iebc31_drz_cutout.fits">hst_16264_31_wfc3_ir_f125w_iebc31_drz_cutout.fits</a></td><td>F125W cutout (IEBC31)</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_16264_31_wfc3_ir_f160w_iebc31_drz_cutout.fits">hst_16264_31_wfc3_ir_f160w_iebc31_drz_cutout.fits</a></td><td>F160W cutout (IEBC31)</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_16264_31_wfc3_ir_total_iebc31_drz_cutout.fits">hst_16264_31_wfc3_ir_total_iebc31_drz_cutout.fits</a></td><td>IR total (IEBC31) cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_16264_32_wfc3_ir_f105w_iebc32_drz_cutout.fits">hst_16264_32_wfc3_ir_f105w_iebc32_drz_cutout.fits</a></td><td>F105W cutout (IEBC32)</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_16264_32_wfc3_ir_f125w_iebc32_drz_cutout.fits">hst_16264_32_wfc3_ir_f125w_iebc32_drz_cutout.fits</a></td><td>F125W cutout (IEBC32)</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_16264_32_wfc3_ir_f160w_iebc32_drz_cutout.fits">hst_16264_32_wfc3_ir_f160w_iebc32_drz_cutout.fits</a></td><td>F160W cutout (IEBC32)</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_16264_32_wfc3_ir_total_iebc32_drz_cutout.fits">hst_16264_32_wfc3_ir_total_iebc32_drz_cutout.fits</a></td><td>IR total (IEBC32) cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_skycell-p0802x16y11_acs_wfc_f555w_all_drc_cutout.fits">hst_skycell-p0802x16y11_acs_wfc_f555w_all_drc_cutout.fits</a></td><td>Skycell ACS F555W cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_skycell-p0802x16y11_wfc3_ir_f105w_all_drz_cutout.fits">hst_skycell-p0802x16y11_wfc3_ir_f105w_all_drz_cutout.fits</a></td><td>Skycell IR F105W cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_skycell-p0802x16y11_wfc3_ir_f105w_coarse-all_drz_cutout.fits">hst_skycell-p0802x16y11_wfc3_ir_f105w_coarse-all_drz_cutout.fits</a></td><td>Skycell IR F105W (coarse) cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_skycell-p0802x16y11_wfc3_ir_f110w_all_drz_cutout.fits">hst_skycell-p0802x16y11_wfc3_ir_f110w_all_drz_cutout.fits</a></td><td>Skycell IR F110W cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_skycell-p0802x16y11_wfc3_ir_f110w_coarse-all_drz_cutout.fits">hst_skycell-p0802x16y11_wfc3_ir_f110w_coarse-all_drz_cutout.fits</a></td><td>Skycell IR F110W (coarse) cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_skycell-p0802x16y11_wfc3_ir_f125w_all_drz_cutout.fits">hst_skycell-p0802x16y11_wfc3_ir_f125w_all_drz_cutout.fits</a></td><td>Skycell IR F125W cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_skycell-p0802x16y11_wfc3_ir_f125w_coarse-all_drz_cutout.fits">hst_skycell-p0802x16y11_wfc3_ir_f125w_coarse-all_drz_cutout.fits</a></td><td>Skycell IR F125W (coarse) cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_skycell-p0802x16y11_wfc3_ir_f160w_all_drz_cutout.fits">hst_skycell-p0802x16y11_wfc3_ir_f160w_all_drz_cutout.fits</a></td><td>Skycell IR F160W cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/hst_skycell-p0802x16y11_wfc3_ir_f160w_coarse-all_drz_cutout.fits">hst_skycell-p0802x16y11_wfc3_ir_f160w_coarse-all_drz_cutout.fits</a></td><td>Skycell IR F160W (coarse) cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/id3w01010_drz_cutout.fits">id3w01010_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/id3w01020_drz_cutout.fits">id3w01020_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/idxu2a020_drz_cutout.fits">idxu2a020_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/idxu2c020_drz_cutout.fits">idxu2c020_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/iebc31010_drz_cutout.fits">iebc31010_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/iebc31020_drz_cutout.fits">iebc31020_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/iebc31030_drz_cutout.fits">iebc31030_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/iebc31040_drz_cutout.fits">iebc31040_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/iebc31050_drz_cutout.fits">iebc31050_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/iebc31060_drz_cutout.fits">iebc31060_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/iebc32010_drz_cutout.fits">iebc32010_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/iebc32020_drz_cutout.fits">iebc32020_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/iebc32030_drz_cutout.fits">iebc32030_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/iebc32040_drz_cutout.fits">iebc32040_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/iebc32050_drz_cutout.fits">iebc32050_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/iebc32060_drz_cutout.fits">iebc32060_drz_cutout.fits</a></td><td>Ancillary cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/jd3w02010_drc_cutout.fits">jd3w02010_drc_cutout.fits</a></td><td>ACS DRC cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/jd3w02010_drz_cutout.fits">jd3w02010_drz_cutout.fits</a></td><td>ACS DRZ cutout</td></tr>
+          <tr><td><a href="/data/macs_j0138/bcg_center.txt">bcg_center.txt</a></td><td>BCG center (WCS anchor)</td></tr>
+          <tr><td><a href="/data/macs_j0138/macs_j0138_rgb.png">macs_j0138_rgb.png</a></td><td>Color composite (context)</td></tr>
+          <tr><td><a href="/data/macs_j0138/macs_j0138_rgb_bcg.png">macs_j0138_rgb_bcg.png</a></td><td>RGB with BCG marker</td></tr>
+          <tr><td><a href="/data/macs_j0138/nfw_profile.csv">nfw_profile.csv</a></td><td>Best-fit (or representative) NFW profile</td></tr>
+          <tr><td><a href="/data/macs_j0138/nfw_locked_model.csv">nfw_locked_model.csv</a></td><td>Locked NFW parameters (if used)</td></tr>
+          <tr><td><a href="/data/macs_j0138/nfw_rs_rhos_grid.csv">nfw_rs_rhos_grid.csv</a></td><td>Grid of r<sub>s</sub>, ρ<sub>s</sub> sweeps</td></tr>
+          <tr><td><a href="/data/macs_j0138/nfw_run_summary.txt">nfw_run_summary.txt</a></td><td>Run summary (θ<sub>E</sub>, scale, ranges)</td></tr>
+          <tr><td><a href="/data/macs_j0138/radial_profile_kpc.csv">radial_profile_kpc.csv</a></td><td>BCG radial profile (kpc)</td></tr>
+          <tr><td><a href="/data/macs_j0138/sersic_fit.txt">sersic_fit.txt</a></td><td>Sérsic fit parameters/log</td></tr>
+          <tr><td><a href="/data/macs_j0138/sweep_summary.csv">sweep_summary.csv</a></td><td>NFW sweep diagnostics</td></tr>
+          <tr><td><a href="/data/macs_j0138/nfw_profile.png">nfw_profile.png</a></td><td>Profile plot</td></tr>
+          <tr><td><a href="/data/macs_j0138/nfw_rs_rhos_grid.png">nfw_rs_rhos_grid.png</a></td><td>Grid heatmap</td></tr>
+          <tr><td><a href="/data/macs_j0138/radial_profile_bcg.png">radial_profile_bcg.png</a></td><td>BCG radial profile (image)</td></tr>
+          <tr><td><a href="/data/macs_j0138/radial_profile_sersic.png">radial_profile_sersic.png</a></td><td>Sérsic fit figure</td></tr>
+          <tr><td><a href="/data/macs_j0138/sweep_kappa_s_vs_rs.png">sweep_kappa_s_vs_rs.png</a></td><td>κ<sub>s</sub> vs r<sub>s</sub> sweep</td></tr>
+          <tr><td><a href="/data/macs_j0138/sweep_rho_s_vs_rs.png">sweep_rho_s_vs_rs.png</a></td><td>ρ<sub>s</sub> vs r<sub>s</sub> sweep</td></tr>
+        </tbody>
+      </table>
+      <div class="thumbs" style="margin-top:10px">
+        <img src="/data/macs_j0138/macs_j0138_rgb.png" alt="MACS J0138 RGB" />
+        <img src="/data/macs_j0138/nfw_profile.png" alt="NFW profile" />
+        <img src="/data/macs_j0138/radial_profile_sersic.png" alt="Sérsic fit" />
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Provenance (local → published)</h2>
+      <p>The following source directories reflect the local acquisition from MAST and subsequent cutout generation. They are listed for traceability and do not need to be published.</p>
+      <details open>
+        <summary><strong>Local HST sources</strong> <span class="small">(~/<wbr>ratio_test/<wbr>data/<wbr>mast_raw/<wbr>HST)</span></summary>
+        <div class="code" aria-label="local tree">
+~/ratio_test/data/mast_raw/HST/
+  hst_14496_01_wfc3_ir_f105w_id3w01/… (DRZ FITS + catalogs)
+  hst_14496_01_wfc3_ir_f160w_id3w01/…
+  hst_14496_01_wfc3_ir_total_id3w01/…
+  hst_14496_02_acs_wfc_f555w_jd3w02/… (DRC)
+  hst_14496_02_acs_wfc_total_jd3w02/…
+  hst_15663_2a_wfc3_ir_f110w_idxu2a/…
+  hst_15663_2a_wfc3_ir_total_idxu2a/…
+  hst_15663_2b_wfc3_ir_total_idxu2b/…
+  hst_15663_2c_wfc3_ir_f125w_idxu2c/…
+  hst_15663_2c_wfc3_ir_total_idxu2c/…
+  hst_15663_2d_wfc3_ir_total_idxu2d/…
+  hst_16264_31_wfc3_ir_f105w_iebc31/…
+  hst_16264_31_wfc3_ir_f125w_iebc31/…
+  hst_16264_31_wfc3_ir_f160w_iebc31/…
+  hst_16264_31_wfc3_ir_total_iebc31/…
+  hst_16264_32_wfc3_ir_f105w_iebc32/…
+  hst_16264_32_wfc3_ir_f125w_iebc32/…
+  hst_16264_32_wfc3_ir_f160w_iebc32/…
+  hst_16264_32_wfc3_ir_total_iebc32/…
+  hst_skycell-p0802x16y11_acs_wfc_f555w_all/…
+  hst_skycell-p0802x16y11_wfc3_ir_f105w_all/…
+  hst_skycell-p0802x16y11_wfc3_ir_f105w_coarse-all/…
+  hst_skycell-p0802x16y11_wfc3_ir_f110w_all/…
+  hst_skycell-p0802x16y11_wfc3_ir_f110w_coarse-all/…
+  hst_skycell-p0802x16y11_wfc3_ir_f125w_all/…
+  hst_skycell-p0802x16y11_wfc3_ir_f125w_coarse-all/…
+  hst_skycell-p0802x16y11_wfc3_ir_f160w_all/…
+  hst_skycell-p0802x16y11_wfc3_ir_f160w_coarse-all/…
+  id3w01010/, id3w01020/, idxu2a020/, idxu2c020/, iebc3xxxx/, iebc32xxx/, jd3w02010/
+        </div>
+      </details>
+      <details>
+        <summary><strong>Local JWST entries</strong> <span class="small">(not used in this first pass)</span></summary>
+        <div class="code">~/ratio_test/data/mast_raw/JWST/jw02345-*/… (NIRSpec products) — staged for future work</div>
+      </details>
+    </section>
+
+    <section class="card">
+      <h2>How to reproduce</h2>
+      <ol>
+        <li>Start from the local HST DRZ/DRC FITS in <code>~/ratio_test/data/mast_raw/HST/*</code> and generate cutouts centered on the BCG (see <code>bcg_center.txt</code>).</li>
+        <li>Record pixel scales/WCS from headers; verify with preview PNGs.</li>
+        <li>Run the NFW grid sweep to solve θ<sub>E</sub> (or accept external M(&lt;R*)) and output:
+          <ul>
+            <li><code>nfw_rs_rhos_grid.csv</code>, <code>sweep_summary.csv</code></li>
+            <li><code>nfw_profile.csv</code> (representative/best‑fit)</li>
+            <li><code>nfw_run_summary.txt</code> (captures z<sub>L</sub>, z<sub>S</sub>, scale, θ<sub>E</sub>)</li>
+          </ul>
+        </li>
+        <li>Fit the BCG radial profile and store <code>radial_profile_kpc.csv</code> and <code>sersic_fit.txt</code>.</li>
+        <li>Publish the cutouts and outputs under <code>/data/macs_j0138</code>; keep raw MAST trees under <code>/data/mast_raw</code> (optional, large).</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>Notes</h2>
+      <ul>
+        <li>Preview PNGs (same stems as FITS) are included for quick visual QA but are not used in computations.</li>
+        <li>Local angles/distances reported here are for this run only; always check <code>nfw_run_summary.txt</code> if you re‑run the sweep.</li>
+        <li>JWST NIRSpec files listed in provenance were not used in this MACS J0138 first pass.</li>
+      </ul>
+    </section>
+
+    <p class="small">Back to <a href="/datasets/">Datasets</a> · This page is JSON‑listed at <a href="/api/datasets.json">/api/datasets.json</a> (slug: <code>mast-macs-j0138</code>).</p>
+  </div>
+</body>
+</html>

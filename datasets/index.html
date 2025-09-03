@@ -1,202 +1,295 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>TinanaLabs</title>
-  <link rel="stylesheet" href="/assets/main.css">
-  <meta name="color-scheme" content="dark light">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TinanaLabs — Datasets</title>
+  <meta name="description" content="Curated datasets used in TinanaLabs experiments: MACS J0138 MAST/HST, BH & GW compilations, and more." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0e12; --fg:#e8eef7; --muted:#a7b3c7; --card:#121722; --line:#1f2633; --accent:#72d0ff;
+      --ok:#7de0a5; --warn:#ffd479; --bad:#ff9aa2;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+    h1{font-size:28px;margin:0;letter-spacing:.2px}
+    .muted{color:var(--muted)}
+    .controls{display:flex;flex-wrap:wrap;gap:12px;padding:14px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#111623,#0c1019)}
+    .controls .field{display:flex;align-items:center;gap:8px}
+    .input{background:#0d121b;border:1px solid var(--line);color:var(--fg);padding:10px 12px;border-radius:12px;min-width:260px}
+    .tags{display:flex;flex-wrap:wrap;gap:8px}
+    .tag{padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:#0f1521;color:var(--muted);cursor:pointer;user-select:none}
+    .tag.active{border-color:var(--accent);color:var(--fg);box-shadow:0 0 0 1px rgba(114,208,255,.3) inset}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:18px}
+    .card{grid-column:span 12;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+    @media(min-width:700px){.card{grid-column:span 6}}
+    @media(min-width:1000px){.card{grid-column:span 4}}
+    .card__body{padding:16px}
+    .card__head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
+    .title{font-weight:650}
+    .badge{font-size:12px;padding:4px 8px;border-radius:999px;border:1px solid var(--line);background:#0e1420;color:var(--muted)}
+    .badge.new{color:#001b0b;background:#052616;border-color:#0d3f2a}
+    .desc{color:var(--muted);margin:6px 0 10px}
+    .meta{display:flex;flex-wrap:wrap;gap:10px;color:var(--muted);font-size:13px}
+    .list{margin:10px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px dashed var(--line);border-radius:12px}
+    .row{display:flex;flex-wrap:wrap;gap:8px}
+    .row a{white-space:nowrap}
+    .divider{height:1px;background:var(--line);margin:10px -16px 6px}
+    .footer{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px}
+    .small{font-size:12px}
+    .empty{border:1px dashed var(--line);border-radius:14px;padding:22px;text-align:center;color:var(--muted);grid-column:span 12}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
 </head>
-<body style="margin:0">
-  <div id="root"></div>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Datasets</h1>
+        <div class="muted">The exact data files and sources used in TinanaLabs experiments.</div>
+      </div>
+    </header>
 
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <section class="controls" aria-label="dataset filters">
+      <div class="field" style="flex:1 1 280px">
+        <label class="sr-only" for="q">Search</label>
+        <input id="q" class="input" type="search" placeholder="Search title, tags, or description…" />
+      </div>
+      <div class="field" style="flex:2 1 420px">
+        <div class="tags" id="tagBar" aria-label="tags"></div>
+      </div>
+    </section>
 
-  {% raw %}
-  <script type="text/babel">
-    // --------------------------
-    // Small UI helpers
-    // --------------------------
-    const Card = ({ title, children, style }) => (
-      <section className="card" style={style}>
-        {title ? <h2 style={{borderBottom:'1px solid var(--border)',paddingBottom:'.4rem',marginTop:0}}>{title}</h2> : null}
-        <div style={{opacity:.95}}>{children}</div>
-      </section>
-    );
+    <section id="grid" class="grid" aria-live="polite" aria-busy="true"></section>
+  </div>
 
-    const Badge = ({ children }) => (
-      <span className="badge" style={{marginRight:8, marginBottom:8, display:'inline-block'}}>{children}</span>
-    );
+  <script>
+  // This page renders from /datasets/static.json. If that file is missing,
+  // we fall back to the inline seed below. To update, create /datasets/static.json
+  // with structure: { "datasets": [ { slug, title, description, last_updated (YYYY-MM-DD),
+  // tags:[..], url:"/datasets/<slug>", files:[{name, path}], sources:[{name, href}] } ] }
 
-    // --------------------------
-    // Data hooks
-    // --------------------------
-    const useJSON = (url, fallback) => {
-      const [data, setData] = React.useState(fallback);
-      const [loaded, setLoaded] = React.useState(false);
-      React.useEffect(() => {
-        let cancelled = false;
-        fetch(url, { cache: 'no-store' })
-          .then(r => { if (!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
-          .then(j => { if (!cancelled) { setData(j); setLoaded(true); } })
-          .catch(() => { if (!cancelled) setLoaded(true); });
-        return () => { cancelled = true; };
-      }, [url]);
-      return { data, loaded };
-    };
-
-    // --------------------------
-    // Cards
-    // --------------------------
-    const StatusCard = () => {
-      const fallback = {
-        phase: "Experimentation",
-        step: "NFW lensing fit for MACS J0138 + cross-checks",
-        updated: "2025-09-01",
-        progress: 0.42,
-        checklist: [
-          "Extract θ_E and NFW (ρ_s, r_s) from literature + our fit",
-          "Run signed residual tests on BH/GW datasets",
-          "Draft falsification notes and preprint outline"
+  const seed = {
+    datasets: [
+      {
+        slug: "mast-macs-j0138",
+        title: "MACS J0138 — MAST/HST First Pass (NFW lensing setup)",
+        description: "Precisely the HST cutouts and metadata used for the first MACS J0138 pass, plus the lensing starter configuration (θ_E, pixel scale, WCS centers).",
+        last_updated: "2025-09-02",
+        tags: ["HST","MAST","Cluster Lensing","NFW"],
+        url: "/datasets/mast-macs-j0138",
+        files: [
+          { name: "F160W cutout (FITS)", path: "/data/macs-j0138/f160w_cutout.fits" },
+          { name: "BCG center (txt)", path: "/data/macs-j0138/bcg_center.txt" },
+          { name: "Lensing starter config (JSON)", path: "/data/macs-j0138/nfw_config.json" }
+        ],
+        sources: [
+          { name: "MAST Portal", href: "https://archive.stsci.edu/" }
         ]
-      };
-      const { data: s } = useJSON('/api/status.json', fallback);
-      const pct = Math.max(0, Math.min(1, Number(s.progress||0))) * 100;
+      },
+      {
+        slug: "bh-merged",
+        title: "Black Holes — Canonical + SDSS‑RM (merged CSV)",
+        description: "Compiled MBH dataset merging canonical anchors (e.g., Kormendy & Ho) with SDSS‑RM entries. Used for BH vs GW residual cross‑checks.",
+        last_updated: "2025-09-03",
+        tags: ["Black Holes","AGN","CSV"],
+        url: "/datasets/bh-merged",
+        files: [ { name: "bh_merged.csv", path: "/data/BH/bh_merged.csv" } ],
+        sources: [
+          { name: "Bentz+ 2013", href: "https://iopscience.iop.org/article/10.1088/0004-637X/767/2/149" },
+          { name: "Kormendy & Ho 2013", href: "https://www.annualreviews.org/doi/10.1146/annurev-astro-082708-101811" }
+        ]
+      },
+      {
+        slug: "gwtc3",
+        title: "Gravitational Waves — GWTC‑3 event catalog (CSV)",
+        description: "Compact binary coalescence events with masses and distances, normalized for residual analysis.",
+        last_updated: "2025-09-03",
+        tags: ["GW","LIGO/Virgo/KAGRA","CSV"],
+        url: "/datasets/gwtc3",
+        files: [ { name: "gwtc3_events.csv", path: "/data/GW/gwtc3_events.csv" } ],
+        sources: [ { name: "GWTC‑3 release", href: "https://www.gw-openscience.org/" } ]
+      }
+    ]
+  };
 
-      return (
-        <section className="card" style={{background:'rgba(10,15,37,.55)'}}>
-          <h3 style={{marginTop:0}}>Current Status</h3>
-          <p className="meta">
-            <strong>Phase:</strong> {s.phase}<br/>
-            <strong>Step:</strong> {s.step}<br/>
-            Updated: {s.updated}
-          </p>
-          <div style={{width:'100%',height:8,background:'#1b2344',borderRadius:6,overflow:'hidden'}}>
-            <div style={{height:'100%',width:`${pct}%`,background:'linear-gradient(90deg,#6aa8ff,#5b6bff)'}} />
-          </div>
-          <ul className="meta" style={{marginTop:'.5rem'}}>
-            {(s.checklist||[]).map((n,i) => <li key={i}>{n}</li>)}
-          </ul>
-        </section>
-      );
-    };
+  const state = {
+    all: [],
+    filtered: [],
+    tags: new Set(),
+    activeTags: new Set(),
+    q: ""
+  };
 
-    const ListBlock = ({ title, items, basePath }) => (
-      <Card title={title}>
-        {(!items || items.length === 0) ? (
-          <p className="meta">Nothing listed yet.</p>
-        ) : (
-          <ul style={{margin:'0.25rem 0 0 1rem', padding:0}}>
-            {items.slice(0,5).map(it => (
-              <li key={it.id || it.url} style={{margin:'.25rem 0'}}>
-                <a href={it.url || (basePath ? `${basePath}/${(it.id||'').replace(/^\//,'')}/` : '#')}>
-                  {it.title || it.id}
-                </a>
-                {it.summary ? <div className="meta" style={{opacity:.85}}>{it.summary}</div> : null}
-              </li>
-            ))}
-          </ul>
-        )}
-      </Card>
-    );
+  async function load() {
+    try {
+      const res = await fetch('/api/datasets.json', {cache:'no-store'});
+      if (!res.ok) throw new Error('no json');
+      const data = await res.json();
+      state.all = Array.isArray(data?.datasets) ? data.datasets : [];
+    } catch (e) {
+      state.all = seed.datasets; // fallback
+    }
+    buildTagUniverse();
+    applyFilters();
+    document.getElementById('grid').setAttribute('aria-busy','false');
+  }
 
-    // --------------------------
-    // Page
-    // --------------------------
-    function Home(){
-      const wrapStyle = {
-        background:'radial-gradient(1200px 800px at 20% -10%, #0a0f25, #050913)',
-        minHeight:'100vh', color:'#f2f5ff'
-      };
+  function buildTagUniverse(){
+    state.tags = new Set();
+    state.all.forEach(d => (d.tags||[]).forEach(t => state.tags.add(t)));
+    const bar = document.getElementById('tagBar');
+    bar.innerHTML = '';
+    [...state.tags].sort((a,b)=>a.localeCompare(b)).forEach(t => {
+      const el = document.createElement('span');
+      el.className = 'tag';
+      el.textContent = t;
+      el.onclick = () => { toggleTag(t); };
+      bar.appendChild(el);
+    });
+  }
 
-      const { data: experiments } = useJSON('/api/experiments.json', []);
-      const { data: datasets }    = useJSON('/api/datasets.json',    []);
+  function toggleTag(t){
+    if (state.activeTags.has(t)) state.activeTags.delete(t); else state.activeTags.add(t);
+    syncTagButtons();
+    applyFilters();
+  }
 
-      return (
-        <div style={wrapStyle}>
-          <header style={{maxWidth:1100,margin:'0 auto',padding:'2rem 1rem 0'}}>
-            <div className="header">
-              <div className="header-title">TinanaLabs</div>
-              <nav className="nav">
-                <a href="/experiments/">Experiments</a>
-                <a href="/processes/">Processes</a>
-                <a href="/datasets/">Datasets</a>
-                <a href="/publications/">Publications</a>
-                <a href="/notes/">Lab Notes</a>
-              </nav>
-            </div>
-            <div style={{marginTop:'1rem',marginBottom:'2rem'}}>
-              <h1>
-                Open research into <span style={{color:'#7aa2ff'}}>temporal lensing</span>, dark matter halos, &amp; testable consequences
-              </h1>
-              <p style={{opacity:.9,maxWidth:720}}>
-                We investigate whether time-dilation in regions of high dark-matter density produces measurable deviations in standard lensing observables.
-                Our approach is strictly empirical: define a correction, confront data, and <em>keep failures</em> public.
-              </p>
-            </div>
-          </header>
+  function syncTagButtons(){
+    const bar = document.getElementById('tagBar');
+    [...bar.children].forEach(el => {
+      el.classList.toggle('active', state.activeTags.has(el.textContent));
+    });
+  }
 
-          <main style={{
-            maxWidth:1100, margin:'0 auto', padding:'0 1rem 3rem',
-            display:'grid', gridTemplateColumns:'320px 1fr', gap:'1.5rem'
-          }}>
-            <aside style={{position:'sticky',top:'1rem',height:'fit-content'}}>
-              <StatusCard />
-              <section className="card" style={{marginTop:'1rem'}}>
-                <h3>Quick Links</h3>
-                <div><a href="/experiments/">Experiments</a></div>
-                <div><a href="/processes/">Processes</a></div>
-                <div><a href="/datasets/">Datasets</a></div>
-                <div><a href="/publications/">Publications</a></div>
-                <div><a href="/notes/">Lab Notes</a></div>
-              </section>
-            </aside>
+  function applyFilters(){
+    const q = state.q.trim().toLowerCase();
+    state.filtered = state.all.filter(d => {
+      const matchesQ = !q || [d.title,d.description,(d.tags||[]).join(' ')].join(' ').toLowerCase().includes(q);
+      const matchesTags = state.activeTags.size===0 || (d.tags||[]).some(t => state.activeTags.has(t));
+      return matchesQ && matchesTags;
+    });
+    render();
+  }
 
-            <div style={{display:'grid',gap:'1rem'}}>
-              <Card title="Mission">
-                Test whether a correction tied to the NFW halo parameters <em>(ρ_s, r_s)</em> subtly modifies time dilation and, in turn,
-                lensing observables like θ_E and κ(R). The program prioritizes falsification across clusters, black-hole reverberation sets,
-                and gravitational-wave timing residuals.
-              </Card>
+  function daysSince(dateStr){
+    if (!dateStr) return Infinity;
+    const d = new Date(dateStr + 'T00:00:00Z');
+    const now = new Date();
+    const ms = now - d;
+    return Math.floor(ms / 86400000);
+  }
 
-              <Card title="What we’re testing">
-                <div>
-                  <Badge>NFW ↔ residual correlation</Badge>
-                  <Badge>θ_E &amp; κ(R) comparisons</Badge>
-                  <Badge>BH reverberation masses</Badge>
-                  <Badge>GW timing residuals</Badge>
-                  <Badge>Signed proxy residuals</Badge>
-                </div>
-              </Card>
+  function render(){
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
 
-              <Card title="Latest Experiments">
-                <ListBlock title="" items={experiments} />
-              </Card>
-
-              <Card title="Datasets">
-                <ListBlock title="" items={datasets} />
-              </Card>
-
-              <Card title="Near-term roadmap">
-                <ul>
-                  <li>Finalize literature-consistent NFW fits for MACS J0138; publish comparison plots.</li>
-                  <li>Lock BH/GW CSVs (provenance + versioning), re-run residual analysis.</li>
-                  <li>Draft &amp; submit the preprint; track feedback and counter-examples.</li>
-                </ul>
-              </Card>
-
-              <Card title="Publications">
-                📄 <a href="/assets/preprints/tinanalabs-preprint.pdf">Temporal Lensing — Working Hypothesis (PDF)</a>
-              </Card>
-            </div>
-          </main>
-        </div>
-      );
+    if (!state.filtered.length){
+      const empty = document.createElement('div');
+      empty.className = 'empty';
+      empty.textContent = 'No datasets match your filters.';
+      grid.appendChild(empty);
+      return;
     }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<Home />);
+    state.filtered.forEach(d => {
+      const card = document.createElement('article');
+      card.className = 'card';
+
+      const body = document.createElement('div');
+      body.className = 'card__body';
+
+      const head = document.createElement('div');
+      head.className = 'card__head';
+
+      const title = document.createElement('div');
+      title.className = 'title';
+      const tlink = document.createElement('a');
+      tlink.href = d.url || '#';
+      tlink.textContent = d.title || d.slug;
+      title.appendChild(tlink);
+
+      const badge = document.createElement('span');
+      badge.className = 'badge';
+      const age = daysSince(d.last_updated);
+      badge.textContent = d.last_updated ? `Updated ${d.last_updated}` : 'Updated —';
+      if (age <= 30) badge.classList.add('new');
+
+      head.appendChild(title);
+      head.appendChild(badge);
+
+      const desc = document.createElement('div');
+      desc.className = 'desc';
+      desc.textContent = d.description || '';
+
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      if (Array.isArray(d.tags) && d.tags.length){
+        const tagRow = document.createElement('div');
+        tagRow.className = 'row';
+        d.tags.forEach(t => { const p=document.createElement('span'); p.className='pill'; p.textContent = t; tagRow.appendChild(p); });
+        meta.appendChild(tagRow);
+      }
+
+      const filesTitle = document.createElement('div');
+      filesTitle.className = 'small muted';
+      filesTitle.style.marginTop = '6px';
+      filesTitle.textContent = 'Files';
+
+      const files = document.createElement('ul');
+      files.className = 'list';
+      (d.files||[]).forEach(f => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = f.path || '#';
+        a.textContent = f.name || f.path;
+        li.appendChild(a);
+        files.appendChild(li);
+      });
+
+      const divider = document.createElement('div');
+      divider.className = 'divider';
+
+      const footer = document.createElement('div');
+      footer.className = 'footer';
+      if (Array.isArray(d.sources) && d.sources.length){
+        const sLabel = document.createElement('span');
+        sLabel.className = 'small muted';
+        sLabel.textContent = 'Sources:';
+        footer.appendChild(sLabel);
+        d.sources.forEach(s => {
+          const link = document.createElement('a');
+          link.className = 'small';
+          link.href = s.href || '#';
+          link.textContent = s.name || s.href;
+          footer.appendChild(link);
+        });
+      }
+
+      body.appendChild(head);
+      body.appendChild(desc);
+      body.appendChild(meta);
+      body.appendChild(filesTitle);
+      body.appendChild(files);
+      body.appendChild(divider);
+      body.appendChild(footer);
+
+      card.appendChild(body);
+      grid.appendChild(card);
+    });
+  }
+
+  document.getElementById('q').addEventListener('input', (e)=>{ state.q = e.target.value; applyFilters(); });
+
+  load();
   </script>
-  {% endraw %}
 </body>
 </html>
