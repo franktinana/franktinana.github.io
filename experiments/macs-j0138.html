@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MACS J0138 — NFW Fit | TinanaLabs</title>
+  <link rel="stylesheet" href="/assets/main.css">
+  <!-- KaTeX for nice formulas -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});"></script>
+  <style>
+    .hero{border-radius:16px;overflow:hidden;margin:0 0 1.25rem 0;box-shadow:0 10px 24px rgba(0,0,0,.25)}
+    .hero img{width:100%;display:block}
+    .kicker{text-transform:uppercase;letter-spacing:.12em;opacity:.8;font-size:.8rem}
+    .meta{opacity:.75;font-size:.95rem;margin-top:.25rem}
+    .defs code{background:rgba(255,255,255,.06);padding:.1rem .35rem;border-radius:6px}
+    .eqn{margin:.75rem 0 1.25rem}
+    .pill{display:inline-block;padding:.25rem .6rem;border:1px solid rgba(255,255,255,.15);border-radius:999px;font-size:.8rem;opacity:.9;margin-right:.5rem;margin-bottom:.5rem}
+    .callout{border-left:3px solid rgba(255,255,255,.25);padding-left:.9rem;margin:.75rem 0}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand">TinanaLabs</a>
+      <nav class="nav">
+        <a href="/index.html">Home</a>
+        <a href="/experiments.html" aria-current="page">Experiments</a>
+        <a href="/processes.html">Processes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:2rem">
+
+    <article class="card">
+      <div class="kicker">Experiment</div>
+      <h1 style="margin:.25rem 0 0">MACS J0138 — NFW Fit & θ<sub>E</sub> Cross-Check</h1>
+      <div class="meta">Cluster lens: estimate NFW parameters and validate against published constraints.</div>
+
+      <!-- Hero image -->
+      <div class="hero" style="margin-top:1rem">
+        <img src="/assets/img/macs-j0138.jpg" alt="HST cutout of MACS J0138 (cluster lens)">
+      </div>
+
+      <!-- Tags -->
+      <div style="margin-bottom:1rem">
+        <span class="pill">HST / MAST</span>
+        <span class="pill">Strong Lensing</span>
+        <span class="pill">NFW Profile</span>
+      </div>
+
+      <section>
+        <h2>Objective</h2>
+        <p>Estimate NFW parameters $$\\rho_s,\\ r_s$$ for MACS&nbsp;J0138 and check internal consistency with
+           the Einstein radius $$\\theta_E$$ and/or the convergence profile $$\\kappa(R)$$.</p>
+      </section>
+
+      <section>
+        <h2>Method (High-Level)</h2>
+        <ol>
+          <li>Adopt cosmology and fix $$z_L, z_S$$.</li>
+          <li>Fit $$\\rho_s, r_s$$ using $$\\theta_E$$ and/or $$\\kappa(R)$$ with uncertainties.</li>
+          <li>Cross-check with published values; log parameter deltas.</li>
+          <li>Save artifacts: <code>nfw_fit.json</code>, plots in <code>figures/</code>, sources in <code>data/</code>.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Key Formulas</h2>
+        <p><strong>NFW density</strong></p>
+        <div class="eqn">$$\\rho(r)=\\frac{\\rho_s}{(r/r_s)\\left(1+r/r_s\\right)^2}$$</div>
+
+        <p><strong>3D mass inside radius</strong></p>
+        <div class="eqn">$$M(<r)=4\\pi\\rho_s r_s^3\\Big[\\ln(1+r/r_s)-\\tfrac{r/r_s}{1+r/r_s}\\Big]$$</div>
+
+        <p><strong>Convergence</strong></p>
+        <div class="eqn">$$\\kappa(R)=\\frac{\\Sigma(R)}{\\Sigma_{\\rm crit}},\\quad
+          \\Sigma_{\\rm crit}=\\frac{c^2}{4\\pi G}\\frac{D_S}{D_L D_{LS}}$$</div>
+
+        <p><strong>Einstein-radius condition</strong></p>
+        <div class="eqn">$$\\bar{\\kappa}(\\theta_E)=1$$</div>
+      </section>
+
+      <section>
+        <h2>What does this mean?</h2>
+        <ul>
+          <li><strong>$$\\theta_E$$</strong> is like the “ring size” of the lens; matching it checks the mass scale.</li>
+          <li><strong>$$\\rho_s, r_s$$</strong> are the “density” and “scale radius” knobs of the dark-matter halo.</li>
+          <li>Good matches → lens consistent with a normal NFW halo.  
+              Mismatches → diagnostics for refining assumptions or falsifying theory.</li>
+        </ul>
+      </section>
+
+      <footer style="opacity:.7;margin-top:1rem">
+        Last updated: 2025-09-02 · Maintainer: Frank Tinana (with Lyra)
+      </footer>
+
+      <p style="margin-top:1rem">
+        <a class="pill" href="/experiments/macs-j0138-details.html">View full details →</a>
+      </p>
+    </article>
+
+    <p style="margin:1.5rem 0"><a class="pill" href="/experiments.html">← Back to Experiments</a></p>
+  </main>
+
+  <footer class="site-footer"><div class="container">© TinanaLabs</div></footer>
+</body>
+</html>

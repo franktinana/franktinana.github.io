@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GW — Timing Residuals | TinanaLabs</title>
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});"></script>
+  <style>.hero{border-radius:16px;overflow:hidden;margin:0 0 1.25rem 0;box-shadow:0 10px 24px rgba(0,0,0,.25)}.hero img{width:100%;display:block}.pill{display:inline-block;padding:.25rem .6rem;border:1px solid rgba(255,255,255,.15);border-radius:999px;font-size:.8rem;opacity:.9;margin-right:.5rem;margin-bottom:.5rem}.callout{border-left:3px solid rgba(255,255,255,.25);padding-left:.9rem;margin:.75rem 0}</style>
+</head>
+<body>
+<header class="site-header"><div class="container"><a href="/" class="brand">TinanaLabs</a><nav class="nav"><a href="/index.html">Home</a><a href="/experiments.html" aria-current="page">Experiments</a><a href="/processes.html">Processes</a></nav></div></header>
+<main class="container" style="padding-top:2rem">
+<article class="card">
+  <div class="kicker">Experiment</div>
+  <h1>Gravitational Waves — Timing Residuals</h1>
+  <div class="hero"><img src="/assets/img/gw-thumb.jpg" alt="GW residuals"></div>
+  <div style="margin-bottom:1rem"><span class="pill">PTA/LIGO</span><span class="pill">Residuals</span><span class="pill">Model Check</span></div>
+
+  <section><h2>Objective</h2><p>Compare predicted vs observed timing residuals under our model and quantify mismatches.</p></section>
+
+  <section><h2>Method (High-Level)</h2>
+    <ol>
+      <li>Assemble dataset of timing residuals.</li>
+      <li>Generate model predictions with same cadence and noise model.</li>
+      <li>Compute signed proxy residuals; summarize by band/source.</li>
+      <li>Visualize and record falsification metrics.</li>
+    </ol>
+  </section>
+
+  <section><h2>Key Formula</h2>
+    <p>Residual definition (schematic):</p>
+    <div>$$ r_i = (t_i^{\mathrm{obs}} - t_i^{\mathrm{model}}) / \sigma_i $$</div>
+  </section>
+
+  <section><h2>What does this mean?</h2>
+    <ul>
+      <li>We ask: “does the model predict the same wiggles in time as the data?”</li>
+      <li>If residuals cluster around zero with expected scatter, the model is consistent.</li>
+      <li>Structured residuals point to missing physics or wrong assumptions.</li>
+    </ul>
+  </section>
+
+  <section><h2>Artifacts</h2>
+    <ul><li><code>data/gw/</code> (inputs)</li><li><code>output/gw/</code> (tables)</li><li><code>figures/gw/</code> (plots)</li></ul>
+  </section>
+</article>
+<p style="margin:1.5rem 0"><a class="pill" href="/experiments.html">← Back to Experiments</a></p>
+</main>
+<footer class="site-footer"><div class="container">© TinanaLabs</div></footer>
+</body></html>

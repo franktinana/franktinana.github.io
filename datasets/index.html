@@ -1,45 +1,124 @@
----
-layout: null
----
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Datasets — TinanaLabs</title>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TinanaLabs</title>
   <link rel="stylesheet" href="/assets/main.css">
+  <meta name="color-scheme" content="dark light">
 </head>
 <body style="margin:0">
-  <div id="app" style="min-height:100vh;color:#f2f5ff"></div>
+  <div id="root"></div>
 
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <script type="text/babel">
   {% raw %}
-    const Card = ({children}) => <div className="card">{children}</div>;
+  <script type="text/babel">
+    // --------------------------
+    // Small UI helpers
+    // --------------------------
+    const Card = ({ title, children, style }) => (
+      <section className="card" style={style}>
+        {title ? <h2 style={{borderBottom:'1px solid var(--border)',paddingBottom:'.4rem',marginTop:0}}>{title}</h2> : null}
+        <div style={{opacity:.95}}>{children}</div>
+      </section>
+    );
 
-    function Datasets(){
-      const [items,setItems] = React.useState(null);
-      const [err,setErr] = React.useState(null);
+    const Badge = ({ children }) => (
+      <span className="badge" style={{marginRight:8, marginBottom:8, display:'inline-block'}}>{children}</span>
+    );
 
-      React.useEffect(()=>{
-        fetch('/api/datasets.json')
-          .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
-          .then(setItems)
-          .catch(e=> setErr(String(e)));
-      },[]);
+    // --------------------------
+    // Data hooks
+    // --------------------------
+    const useJSON = (url, fallback) => {
+      const [data, setData] = React.useState(fallback);
+      const [loaded, setLoaded] = React.useState(false);
+      React.useEffect(() => {
+        let cancelled = false;
+        fetch(url, { cache: 'no-store' })
+          .then(r => { if (!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+          .then(j => { if (!cancelled) { setData(j); setLoaded(true); } })
+          .catch(() => { if (!cancelled) setLoaded(true); });
+        return () => { cancelled = true; };
+      }, [url]);
+      return { data, loaded };
+    };
 
-      const bg = {background:'radial-gradient(1200px 800px at 20% -10%, #0a0f25, #050913)'};
+    // --------------------------
+    // Cards
+    // --------------------------
+    const StatusCard = () => {
+      const fallback = {
+        phase: "Experimentation",
+        step: "NFW lensing fit for MACS J0138 + cross-checks",
+        updated: "2025-09-01",
+        progress: 0.42,
+        checklist: [
+          "Extract θ_E and NFW (ρ_s, r_s) from literature + our fit",
+          "Run signed residual tests on BH/GW datasets",
+          "Draft falsification notes and preprint outline"
+        ]
+      };
+      const { data: s } = useJSON('/api/status.json', fallback);
+      const pct = Math.max(0, Math.min(1, Number(s.progress||0))) * 100;
 
       return (
-        <div style={bg}>
+        <section className="card" style={{background:'rgba(10,15,37,.55)'}}>
+          <h3 style={{marginTop:0}}>Current Status</h3>
+          <p className="meta">
+            <strong>Phase:</strong> {s.phase}<br/>
+            <strong>Step:</strong> {s.step}<br/>
+            Updated: {s.updated}
+          </p>
+          <div style={{width:'100%',height:8,background:'#1b2344',borderRadius:6,overflow:'hidden'}}>
+            <div style={{height:'100%',width:`${pct}%`,background:'linear-gradient(90deg,#6aa8ff,#5b6bff)'}} />
+          </div>
+          <ul className="meta" style={{marginTop:'.5rem'}}>
+            {(s.checklist||[]).map((n,i) => <li key={i}>{n}</li>)}
+          </ul>
+        </section>
+      );
+    };
+
+    const ListBlock = ({ title, items, basePath }) => (
+      <Card title={title}>
+        {(!items || items.length === 0) ? (
+          <p className="meta">Nothing listed yet.</p>
+        ) : (
+          <ul style={{margin:'0.25rem 0 0 1rem', padding:0}}>
+            {items.slice(0,5).map(it => (
+              <li key={it.id || it.url} style={{margin:'.25rem 0'}}>
+                <a href={it.url || (basePath ? `${basePath}/${(it.id||'').replace(/^\//,'')}/` : '#')}>
+                  {it.title || it.id}
+                </a>
+                {it.summary ? <div className="meta" style={{opacity:.85}}>{it.summary}</div> : null}
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
+    );
+
+    // --------------------------
+    // Page
+    // --------------------------
+    function Home(){
+      const wrapStyle = {
+        background:'radial-gradient(1200px 800px at 20% -10%, #0a0f25, #050913)',
+        minHeight:'100vh', color:'#f2f5ff'
+      };
+
+      const { data: experiments } = useJSON('/api/experiments.json', []);
+      const { data: datasets }    = useJSON('/api/datasets.json',    []);
+
+      return (
+        <div style={wrapStyle}>
           <header style={{maxWidth:1100,margin:'0 auto',padding:'2rem 1rem 0'}}>
             <div className="header">
               <div className="header-title">TinanaLabs</div>
               <nav className="nav">
-                <a href="/">Home</a>
                 <a href="/experiments/">Experiments</a>
                 <a href="/processes/">Processes</a>
                 <a href="/datasets/">Datasets</a>
@@ -47,34 +126,77 @@ layout: null
                 <a href="/notes/">Lab Notes</a>
               </nav>
             </div>
-            <h1 style={{margin:"1rem 0 0 0"}}>Datasets</h1>
+            <div style={{marginTop:'1rem',marginBottom:'2rem'}}>
+              <h1>
+                Open research into <span style={{color:'#7aa2ff'}}>temporal lensing</span>, dark matter halos, &amp; testable consequences
+              </h1>
+              <p style={{opacity:.9,maxWidth:720}}>
+                We investigate whether time-dilation in regions of high dark-matter density produces measurable deviations in standard lensing observables.
+                Our approach is strictly empirical: define a correction, confront data, and <em>keep failures</em> public.
+              </p>
+            </div>
           </header>
 
-          <main style={{maxWidth:1100,margin:"0 auto",padding:"0 1rem 3rem"}}>
-            {err && <div className="card" style={{borderColor:"#e66"}}>Error loading /api/datasets.json: {err}</div>}
-            {!items && !err && <div style={{padding:"2rem"}}>Loading…</div>}
+          <main style={{
+            maxWidth:1100, margin:'0 auto', padding:'0 1rem 3rem',
+            display:'grid', gridTemplateColumns:'320px 1fr', gap:'1.5rem'
+          }}>
+            <aside style={{position:'sticky',top:'1rem',height:'fit-content'}}>
+              <StatusCard />
+              <section className="card" style={{marginTop:'1rem'}}>
+                <h3>Quick Links</h3>
+                <div><a href="/experiments/">Experiments</a></div>
+                <div><a href="/processes/">Processes</a></div>
+                <div><a href="/datasets/">Datasets</a></div>
+                <div><a href="/publications/">Publications</a></div>
+                <div><a href="/notes/">Lab Notes</a></div>
+              </section>
+            </aside>
 
-            {items && <div className="grid">
-              {items.map((d, i)=>(
-                <Card key={i}>
-                  <h3 style={{marginTop:0}}><a href={d.url}>{d.title}</a></h3>
-                  <p className="meta">{d.summary}</p>
-                  {Array.isArray(d.links) && d.links.length>0 &&
-                    <ul className="meta">
-                      {d.links.map((L,j)=><li key={j}><a href={L.href}>{L.text || L.href}</a></li>)}
-                    </ul>
-                  }
-                </Card>
-              ))}
-            </div>}
+            <div style={{display:'grid',gap:'1rem'}}>
+              <Card title="Mission">
+                Test whether a correction tied to the NFW halo parameters <em>(ρ_s, r_s)</em> subtly modifies time dilation and, in turn,
+                lensing observables like θ_E and κ(R). The program prioritizes falsification across clusters, black-hole reverberation sets,
+                and gravitational-wave timing residuals.
+              </Card>
+
+              <Card title="What we’re testing">
+                <div>
+                  <Badge>NFW ↔ residual correlation</Badge>
+                  <Badge>θ_E &amp; κ(R) comparisons</Badge>
+                  <Badge>BH reverberation masses</Badge>
+                  <Badge>GW timing residuals</Badge>
+                  <Badge>Signed proxy residuals</Badge>
+                </div>
+              </Card>
+
+              <Card title="Latest Experiments">
+                <ListBlock title="" items={experiments} />
+              </Card>
+
+              <Card title="Datasets">
+                <ListBlock title="" items={datasets} />
+              </Card>
+
+              <Card title="Near-term roadmap">
+                <ul>
+                  <li>Finalize literature-consistent NFW fits for MACS J0138; publish comparison plots.</li>
+                  <li>Lock BH/GW CSVs (provenance + versioning), re-run residual analysis.</li>
+                  <li>Draft &amp; submit the preprint; track feedback and counter-examples.</li>
+                </ul>
+              </Card>
+
+              <Card title="Publications">
+                📄 <a href="/assets/preprints/tinanalabs-preprint.pdf">Temporal Lensing — Working Hypothesis (PDF)</a>
+              </Card>
+            </div>
           </main>
         </div>
       );
     }
 
-    ReactDOM.createRoot(document.getElementById('app')).render(<Datasets />);
-    {% endraw %}
+    ReactDOM.createRoot(document.getElementById('root')).render(<Home />);
   </script>
+  {% endraw %}
 </body>
 </html>
-
