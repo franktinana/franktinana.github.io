@@ -1,0 +1,127 @@
+---
+title: Bullet Cluster Dataset
+layout: default
+---
+
+<main class="container">
+  <header class="page-header">
+    <h1>Bullet Cluster Dataset</h1>
+    <p class="subtitle">JWST NIRCam F200W mosaics · Chandra X-ray maps · Encore support</p>
+  </header>
+
+  <section>
+    <h2>Location</h2>
+    <p><code>~/bullet_data</code></p>
+  </section>
+
+  <section>
+    <h2>Contents</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Filename</th>
+          <th>Instrument</th>
+          <th>Notes / Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>jw04598-o001_t001_nircam_clear-f200w_i2d.fits</code></td>
+          <td>JWST / NIRCam F200W</td>
+          <td>Program 4598, drizzled mosaic (i2d). Reference frame for optical/NIR.</td>
+        </tr>
+        <tr>
+          <td><code>jw04598-o002_t010_nircam_clear-f200w_i2d.fits</code></td>
+          <td>JWST / NIRCam F200W</td>
+          <td>Second visit/epoch for consistency checks and ROI validation.</td>
+        </tr>
+        <tr>
+          <td><code>chandra_3184_broad_flux_wcs.fits</code></td>
+          <td>Chandra X-ray</td>
+          <td>Broad-band flux map with WCS. Traces intracluster gas peak.</td>
+        </tr>
+        <tr>
+          <td><code>chandra_cut.fits</code></td>
+          <td>Chandra X-ray (cutout)</td>
+          <td>Aligned/cropped cutout for ROI overlays and offset measurement.</td>
+        </tr>
+        <tr>
+          <td><code>encore_delays.zip</code></td>
+          <td>Encore</td>
+          <td>Time-delay / lensing support package (archival context).</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h3>Cutouts</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Filename</th>
+          <th>Derived from</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>cutouts/jw1_f200w_cut.fits</code></td>
+          <td>o001 i2d</td>
+          <td>ROI-sized NIRCam cutout (fast alignment/plotting).</td>
+        </tr>
+        <tr>
+          <td><code>cutouts/jw2_f200w_cut.fits</code></td>
+          <td>o002 i2d</td>
+          <td>ROI cross-check across visits.</td>
+        </tr>
+        <tr>
+          <td><code>cutouts/chandra_cut.fits</code></td>
+          <td>Chandra WCS map</td>
+          <td>ROI-sized X-ray cutout aligned to JWST WCS.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Provenance</h2>
+    <ul>
+      <li><strong>JWST</strong>: Program <code>4598</code> (<code>jw04598*</code>), NIRCam F200W i2d mosaics.</li>
+      <li><strong>Chandra</strong>: WCS-calibrated broad-band flux map + registered cutout.</li>
+      <li><strong>Encore</strong>: Time-delay ancillary data (<code>encore_delays.zip</code>).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>WCS & Pixel Scale (quick check)</h2>
+    <pre><code># (venv) pip install astropy
+python - &lt;&lt;'PY'
+from astropy.io import fits
+from astropy.wcs import WCS
+from astropy.wcs.utils import proj_plane_pixel_scales
+import glob, os
+for f in glob.glob(os.path.expanduser('~/bullet_data/**/*.fits'), recursive=True):
+    with fits.open(f) as hdul:
+        hdr = hdul[0].header
+        try:
+            w = WCS(hdr if 'SCI' not in hdul else hdul['SCI'].header)
+            pix = proj_plane_pixel_scales(w)[0]*3600.0
+            print(os.path.basename(f), 'pixscale=%.5f arcsec/pix' % pix, 'CTYPE1=', w.wcs.ctype[0])
+        except Exception as e:
+            print(os.path.basename(f), 'WCS: n/a', e)
+PY</code></pre>
+  </section>
+
+  <section>
+    <h2>Checksums</h2>
+    <pre><code>cd ~/bullet_data
+find . -type f -name "*.fits" -print0 | xargs -0 -I{} sha256sum "{}" &gt; bullet_sha256.txt
+echo "Wrote ~/bullet_data/bullet_sha256.txt"</code></pre>
+  </section>
+
+  <section>
+    <h2>License & Usage</h2>
+    <p>For TinanaLabs’ Temporal Lensing Theory project. Credit JWST/Chandra programs for derived figures as appropriate.</p>
+  </section>
+</main>
