@@ -3,16 +3,19 @@ description: Open research into temporal lensing, dark matter halos, and testabl
 url: "https://tinanalabs.com"
 baseurl: ""
 theme: minima
+
 collections:
   experiments:  { output: true, permalink: /experiments/:name/ }
-  publications: { output: true, permalink: /publications/:name/ }
   datasets:     { output: true, permalink: /datasets/:name/ }
+  publications: { output: true, permalink: /publications/:name/ }
   processes:    { output: true, permalink: /processes/:name/ }
   notes:        { output: true, permalink: /notes/:name/ }
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
 markdown: kramdown
+
 nav:
   - { title: "Experiments",  url: "/experiments/" }
   - { title: "Processes",    url: "/processes/" }

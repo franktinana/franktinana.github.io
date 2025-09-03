@@ -1,0 +1,60 @@
+---
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Experiments — Tinana Labs</title>
+  <link rel="stylesheet" href="/assets/main.css">
+</head>
+<body style="margin:0">
+  <div id="app" style="min-height:100vh;color:#f2f5ff"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const Card = ({children}) => <div className="card">{children}</div>;
+
+    function Experiments(){
+      const [items,setItems] = React.useState(null);
+      React.useEffect(()=>{ fetch('/api/experiments.json').then(r=>r.json()).then(setItems); },[]);
+      if(!items) return <div style={{padding:'2rem'}}>Loading…</div>;
+
+      return (
+        <div style={{background:'radial-gradient(1200px 800px at 20% -10%, #0a0f25, #050913)'}}>
+          <header style={{maxWidth:1100,margin:'0 auto',padding:'2rem 1rem 0'}}>
+            <div className="header">
+              <h1 style={{margin:0}}>Experiments</h1>
+              <nav className="nav">
+                <a href="/">Home</a>
+                <a href="/datasets/">Datasets</a>
+                <a href="/publications/">Publications</a>
+                <a href="/notes/">Lab Notes</a>
+              </nav>
+            </div>
+          </header>
+
+          <main style={{maxWidth:1100,margin:'0 auto',padding:'0 1rem 3rem'}}>
+            <div className="grid">
+              {items.map((e, i)=>(
+                <Card key={i}>
+                  <h3 style={{marginTop:0}}><a href={e.url}>{e.title}</a></h3>
+                  <p className="meta">{e.summary}</p>
+                  {Array.isArray(e.images) && e.images.length>0 &&
+                    <img src={e.images[0].src} alt={e.images[0].alt||''} style={{width:'100%',borderRadius:12,marginTop:8}}/>
+                  }
+                </Card>
+              ))}
+            </div>
+          </main>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('app')).render(<Experiments />);
+  </script>
+</body>
+</html>

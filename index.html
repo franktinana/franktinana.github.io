@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tinana Labs</title>
+  <link rel="stylesheet" href="/assets/main.css">
+</head>
+<body style="margin:0">
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const Section = ({ title, children }) => (
+      <section className="card">
+        <h2 style={{borderBottom:'1px solid var(--border)',paddingBottom:'.4rem'}}>{title}</h2>
+        <div style={{opacity:.9}}>{children}</div>
+      </section>
+    );
+    const Chip = ({children}) => <span className="badge">{children}</span>;
+
+    function Home(){
+      const status = {
+        phase:"Experimentation",
+        step:"NFW lensing fit for MACS J0138 + cross-checks",
+        percent:42, updated:"2025-09-01",
+        next:[
+          "Extract θ_E and NFW (ρ_s, r_s) from literature + our fit",
+          "Run signed residual tests on BH/GW datasets",
+          "Draft falsification notes and preprint outline",
+        ],
+      };
+      const wrapStyle = {background:'radial-gradient(1200px 800px at 20% -10%, #0a0f25, #050913)',minHeight:'100vh',color:'#f2f5ff'};
+
+      return (
+        <div style={wrapStyle}>
+          <header style={{maxWidth:1100,margin:'0 auto',padding:'2rem 1rem 0'}}>
+            <div className="header">
+              <div style={{fontWeight:800}}>Tinana Labs</div>
+              <nav className="nav">
+                <a href="/experiments/">Experiments</a>
+                <a href="/processes/">Processes</a>
+                <a href="/datasets/">Datasets</a>
+                <a href="/publications/">Publications</a>
+                <a href="/notes/">Lab Notes</a>
+              </nav>
+            </div>
+            <div style={{marginBottom:'2rem'}}>
+              <h1>Open research into <span style={{color:'#7aa2ff'}}>temporal lensing</span>, dark matter halos, & testable consequences</h1>
+              <p style={{opacity:.9,maxWidth:720}}>
+                We investigate whether time-dilation in regions of high dark-matter density produces measurable deviations in standard lensing observables.
+                Our approach is strictly empirical: define a correction, confront data, and <em>keep failures</em> public.
+              </p>
+            </div>
+          </header>
+
+          <main style={{maxWidth:1100,margin:'0 auto',padding:'0 1rem 3rem',display:'grid',gridTemplateColumns:'320px 1fr',gap:'1.5rem'}}>
+            <aside style={{position:'sticky',top:'1rem',height:'fit-content'}}>
+              <section className="card" style={{background:'rgba(10,15,37,.55)'}}>
+                <h3 style={{marginTop:0}}>Current Status</h3>
+                <p className="meta"><strong>Phase:</strong> {status.phase}<br/><strong>Step:</strong> {status.step}<br/>Updated: {status.updated}</p>
+                <div style={{width:'100%',height:8,background:'#1b2344',borderRadius:6,overflow:'hidden'}}>
+                  <div style={{height:'100%',width:`${status.percent}%`,background:'#7aa2ff'}}/>
+                </div>
+                <ul className="meta" style={{marginTop:'.5rem'}}>{status.next.map((n,i)=><li key={i}>{n}</li>)}</ul>
+              </section>
+              <section className="card" style={{marginTop:'1rem'}}>
+                <h3>Quick Links</h3>
+                <div><a href="/experiments/">Experiments</a></div>
+                <div><a href="/processes/">Processes</a></div>
+                <div><a href="/datasets/">Datasets</a></div>
+                <div><a href="/publications/">Publications</a></div>
+                <div><a href="/notes/">Lab Notes</a></div>
+              </section>
+            </aside>
+
+            <div style={{display:'grid',gap:'1rem'}}>
+              <Section title="Mission">
+                Test whether a correction tied to the NFW halo parameters <em>(ρ_s, r_s)</em> subtly modifies time dilation and, in turn,
+                lensing observables like θ_E and κ(R). The program prioritizes falsification across clusters, black-hole reverberation sets,
+                and gravitational-wave timing residuals.
+              </Section>
+
+              <Section title="What we’re testing">
+                <div>
+                  <Chip>NFW ↔ residual correlation</Chip>
+                  <Chip>θ_E & κ(R) comparisons</Chip>
+                  <Chip>BH reverberation masses</Chip>
+                  <Chip>GW timing residuals</Chip>
+                  <Chip>Signed proxy residuals</Chip>
+                </div>
+              </Section>
+
+              <Section title="Why it matters (implications if signal is real)">
+                <ul>
+                  <li><strong>Lensing systematics:</strong> refined mass modeling in clusters & galaxies.</li>
+                  <li><strong>Cosmological inference:</strong> bias checks for H₀ and growth parameters.</li>
+                  <li><strong>Accretion physics:</strong> subtle timing offsets near dense halos.</li>
+                </ul>
+              </Section>
+
+              <Section title="How we test">
+                <ol>
+                  <li><strong>Cluster lenses:</strong> Fit NFW to systems like <em>MACS J0138</em>; compare predicted vs. observed θ_E / κ(R).</li>
+                  <li><strong>BH set:</strong> Build clean RM catalogs; compute signed residuals under the correction.</li>
+                  <li><strong>GW set:</strong> Test timing residuals for the same signature.</li>
+                  <li><strong>Falsification first:</strong> Document where the correction fails; adjust scope accordingly.</li>
+                </ol>
+              </Section>
+
+              <Section title="Near-term roadmap">
+                <ul>
+                  <li>Finalize literature-consistent NFW fits for MACS J0138; publish comparison plots.</li>
+                  <li>Lock BH/GW CSVs (provenance + versioning), re-run residual analysis.</li>
+                  <li>Draft & submit the preprint; track feedback and counter-examples.</li>
+                </ul>
+              </Section>
+
+              <Section title="Publications">
+                📄 <a href="/assets/preprints/tinanalabs-preprint.pdf">Temporal Lensing — Working Hypothesis (PDF)</a>
+              </Section>
+            </div>
+          </main>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<Home />);
+  </script>
+</body>
+</html>
