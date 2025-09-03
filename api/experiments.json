@@ -2,22 +2,20 @@
 layout: null
 permalink: /api/experiments.json
 ---
-
 [
-  {%- for e in site.experiments -%}
-    {
-      "title": {{ e.title | jsonify }},
-      "summary": {{ e.summary | jsonify }},
-      "url": {{ e.url | relative_url | jsonify }},
-      "images": [
-        {%- for img in e.images -%}
-          {
-            "src": {{ img.src | jsonify }},
-            "alt": {{ img.alt | jsonify }}
-          }{% unless forloop.last %},{% endunless %}
-        {%- endfor -%}
-      ]
-    }{% unless forloop.last %},{% endunless %}
-  {%- endfor -%}
+{% assign items = site.experiments %}
+{% for e in items %}
+  {
+    "title": {{ e.title | jsonify }},
+    "summary": {{ (e.summary | default: e.excerpt | default: "") | strip | jsonify }},
+    "url": {{ e.url | relative_url | jsonify }},
+    "images": [
+      {% assign imgs = e.images | default: empty %}
+      {% for img in imgs %}
+        { "src": {{ img.src | jsonify }}, "alt": {{ img.alt | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ]
+  }{% unless forloop.last %},{% endunless %}
+{% endfor %}
 ]
 JSON
