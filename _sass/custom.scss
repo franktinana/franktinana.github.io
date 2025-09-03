@@ -23,3 +23,12 @@ h3{font-size:1.1rem;font-weight:800;margin:0 0 .5rem}
   display: flex;
   gap: 1.5rem;          /* Consistent spacing between links */
 }
+
+/* === Header tweaks (global) === */
+.header       { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.25rem; }
+.header-title { font-weight:900; font-size:2rem; letter-spacing:-0.5px; }
+.nav          { display:flex; gap:1.5rem; }        /* modern browsers */
+.nav a        { color:var(--ink); opacity:.9; }
+.nav a:hover  { opacity:1; text-decoration:underline; }
+/* fallback spacing if gap not supported */
+.nav a:not(:last-child){ margin-right:1.5rem; }
