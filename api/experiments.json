@@ -1,10 +1,15 @@
 [
   {
     "id": "macs-j0138-nfw",
-    "title": "MACS J0138 — NFW Fit",
-    "summary": "Cluster lens: NFW fit and θ_E cross-check for MACS J0138.",
-    "url": "/experiments/macs-j0138-nfw/",
-    "images": []
+    "title": "MACS J0138 — NFW Fit (Details)",
+    "summary": "Full dataset, scripts, and NFW cross-check for MACS J0138.",
+    "url": "/experiments/macs-j0138-details.html",
+    "images": [
+    {
+      "src": "/assets/img/macs-j0138-thumb.jpg",
+      "alt": "HST cutout of MACS J0138"
+    }
+  ]
   },
   {
     "id": "gw-timing-residuals",
