@@ -16,6 +16,7 @@ layout: null
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <script type="text/babel">
+  {% raw %}
     const Card = ({children}) => <div className="card">{children}</div>;
 
     function Experiments(){
@@ -75,6 +76,9 @@ layout: null
         '<div class="card" style="border-color:#e66">Render error: '+String(e)+'</div>';
       console.error(e);
     }
+
+    ReactDOM.createRoot(document.getElementById('app')).render(<Experiments />);
+  {% endraw %}
   </script>
 </body>
 </html>
