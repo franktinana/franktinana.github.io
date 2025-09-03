@@ -1,0 +1,12 @@
+{
+  "phase": "Experimentation",
+  "step": "Residual tests on BH reverberation & GW timing sets",
+  "updated": "2025-09-02",
+  "progress": 0.55,
+  "checklist": [
+    "Lock BH reverberation-mapping catalog and provenance",
+    "Cross-check GW event set against published residual baselines",
+    "Apply signed proxy residual method across both datasets",
+    "Summarize initial results and draft notes for preprint section 2"
+  ]
+}
