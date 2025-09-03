@@ -45,12 +45,12 @@ layout: null
                 <a href="/notes/">Lab Notes</a>
               </nav>
             </div>
-            <h1 style="margin:1rem 0 0 0">Experiments</h1>
+            <h1 style={{margin:"1rem 0 0 0"}}>Experiments</h1>
           </header>
 
-          <main style={{maxWidth:1100,margin:'0 auto',padding:'0 1rem 3rem'}}>
+          <main style={{maxWidth:1100,margin:"0 auto",padding:"0 1rem 3rem"}}>
             {err && <div className="card" style={{borderColor:'#e66'}}>Error loading /api/experiments.json: {err}</div>}
-            {!items && !err && <div style={{padding:'2rem'}}>Loading…</div>}
+            {!items && !err && <div style={{padding:"2rem"}}>Loading…</div>}
 
             {items && <div className="grid">
               {items.map((e, i)=>(
@@ -68,7 +68,14 @@ layout: null
       );
     }
 
-    ReactDOM.createRoot(document.getElementById('app')).render(<Experiments />);
+    try {
+      ReactDOM.createRoot(document.getElementById('app')).render(<Experiments />);
+    } catch (e) {
+      document.getElementById('app').innerHTML =
+        '<div class="card" style="border-color:#e66">Render error: '+String(e)+'</div>';
+      console.error(e);
+    }
   </script>
 </body>
 </html>
+HTML
