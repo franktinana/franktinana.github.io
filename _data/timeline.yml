@@ -7,3 +7,12 @@
 - date: 2025-09-01
   title: "Research site v1"
   summary: "Scientific sections, status widget, and timeline online."
+- date: 2025-09-02
+  title: "Experiments scaffolded (Clusters/BH/GW)"
+  summary: "Added three experiment pages with methods and artifacts sections."
+- date: 2025-09-02
+  title: "Datasets listed"
+  summary: "Created dataset entries for HST/MAST cutouts, BH RM catalog, and GW event set."
+- date: 2025-09-02
+  title: "React listings online"
+  summary: "Experiments and Datasets now render via React from /api/*.json while content remains Markdown."
