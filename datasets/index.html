@@ -4,7 +4,8 @@ layout: null
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Datasets — TinanaLabs</title>
   <link rel="stylesheet" href="/assets/main.css">
 </head>
@@ -45,12 +46,12 @@ layout: null
                 <a href="/notes/">Lab Notes</a>
               </nav>
             </div>
-            <h1 style="margin:1rem 0 0 0">Datasets</h1>
+            <h1 style={{margin:"1rem 0 0 0"}}>Datasets</h1>
           </header>
 
-          <main style={{maxWidth:1100,margin:'0 auto',padding:'0 1rem 3rem'}}>
-            {err && <div className="card" style={{borderColor:'#e66'}}>Error loading /api/datasets.json: {err}</div>}
-            {!items && !err && <div style={{padding:'2rem'}}>Loading…</div>}
+          <main style={{maxWidth:1100,margin:"0 auto",padding:"0 1rem 3rem"}}>
+            {err && <div className="card" style={{borderColor:"#e66"}}>Error loading /api/datasets.json: {err}</div>}
+            {!items && !err && <div style={{padding:"2rem"}}>Loading…</div>}
 
             {items && <div className="grid">
               {items.map((d, i)=>(
@@ -58,7 +59,9 @@ layout: null
                   <h3 style={{marginTop:0}}><a href={d.url}>{d.title}</a></h3>
                   <p className="meta">{d.summary}</p>
                   {Array.isArray(d.links) && d.links.length>0 &&
-                    <ul className="meta">{d.links.map((L,j)=><li key={j}><a href={L.href}>{L.text || L.href}</a></li>)}</ul>
+                    <ul className="meta">
+                      {d.links.map((L,j)=><li key={j}><a href={L.href}>{L.text || L.href}</a></li>)}
+                    </ul>
                   }
                 </Card>
               ))}
@@ -72,3 +75,4 @@ layout: null
   </script>
 </body>
 </html>
+
