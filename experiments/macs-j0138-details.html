@@ -1,224 +1,332 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>MACS J0138 — NFW Experiment (Details) | TinanaLabs</title>
-  <link rel="stylesheet" href="/assets/main.css">
-  <!-- KaTeX for math -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
-    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});"></script>
-  <style>
-    .hero{border-radius:16px;overflow:hidden;margin:0 0 1.25rem 0;box-shadow:0 10px 24px rgba(0,0,0,.25)}
-    .hero img{width:100%;display:block}
-    .kicker{text-transform:uppercase;letter-spacing:.12em;opacity:.8;font-size:.8rem}
-    .meta{opacity:.75;font-size:.95rem;margin-top:.25rem}
-    .pill{display:inline-block;padding:.25rem .6rem;border:1px solid rgba(255,255,255,.15);border-radius:999px;font-size:.8rem;opacity:.9;margin-right:.5rem;margin-bottom:.5rem}
-    .grid{display:grid;gap:1rem}
-    @media(min-width:900px){.grid-cols-2{grid-template-columns:1fr 1fr}}
-    table{width:100%;border-collapse:collapse}
-    th,td{border-bottom:1px solid rgba(255,255,255,.1);padding:.5rem .4rem;vertical-align:top}
-    code{background:rgba(255,255,255,.06);padding:.12rem .35rem;border-radius:6px}
-    pre{background:rgba(255,255,255,.06);padding:.85rem;border-radius:10px;overflow:auto}
-    .callout{border-left:3px solid rgba(255,255,255,.25);padding-left:.9rem;margin:.75rem 0}
-  </style>
+<meta charset="utf-8">
+<title>Experiment: MACS J0138 — MAST/HST First Pass (NFW lensing setup)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="TinanaLabs Temporal Lensing Theory — MACS J0138 first MAST experiment details: exact data used, programs, filters, scripts, WCS/pixel scale, and verification.">
+<style>
+  :root{
+    --bg:#0b0e12; --fg:#e8eef7; --muted:#a7b3c7; --card:#121722; --line:#1f2633; --accent:#72d0ff;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.55}
+  a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px}
+  h1{margin:0 0 10px 0;font-weight:800;letter-spacing:.2px}
+  h2{margin:28px 0 12px 0;border-bottom:1px solid var(--line);padding-bottom:8px}
+  h3{margin:22px 0 8px 0}
+  p{color:var(--fg)}
+  .muted{color:var(--muted)}
+  .grid{display:grid;gap:16px}
+  .g-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .code{font-family:var(--mono);background:#0a0d13;border:1px solid var(--line);padding:12px;border-radius:10px;overflow:auto}
+  table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  thead th{background:#0f1520;color:#aecdff;text-align:left;font-weight:700;font-size:14px}
+  th,td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+  .kbd{font-family:var(--mono);background:#0c1118;border:1px solid var(--line);padding:2px 6px;border-radius:6px}
+  .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:12px;color:var(--muted)}
+  .note{border-left:3px solid #3c79ff;padding-left:12px}
+  .ok{color:#7dffb3}
+  .warn{color:#ffd27d}
+  .bad{color:#ff9f9f}
+  .hr{height:1px;background:var(--line);margin:18px 0}
+  figure{margin:0}
+  figcaption{color:var(--muted);font-size:12px;margin-top:6px}
+  .caption{color:#9ecbff}
+  .small{font-size:13px}
+  @media (max-width: 900px){ .g-cols-2{grid-template-columns:1fr} }
+</style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <a href="/" class="brand">TinanaLabs</a>
-      <nav class="nav">
-        <a href="/index.html">Home</a>
-        <a href="/experiments.html">Experiments</a>
-        <a href="/processes.html">Processes</a>
-      </nav>
+<div class="wrap">
+
+  <header class="grid g-cols-2" style="align-items:center;gap:10px">
+    <div>
+      <h1>Experiment: MACS J0138 — MAST/HST First Pass</h1>
+      <div class="muted">TinanaLabs • Temporal Lensing Theory • <span class="pill">Status: reproducible</span></div>
+      <div class="small muted" style="margin-top:6px">Last updated: 2025-09-02 (America/Edmonton)</div>
+    </div>
+    <div class="card">
+      <div class="small"><span class="caption">Goal:</span> Build an NFW lensing starter set for MACS J0138 using publicly retrieved HST products; record exactly what was used (programs, filters, products), and expose WCS/pixel scales for subsequent θ<sub>E</sub> and profile fits.</div>
     </div>
   </header>
 
-  <main class="container" style="padding-top:2rem">
-    <article class="card">
-      <div class="kicker">Experiment Details</div>
-      <h1 style="margin:.25rem 0 0">MACS J0138 — NFW Fit & θ<sub>E</sub> Cross-Check</h1>
-      <div class="meta">System: MACS J0138.0-2155 · Lens redshift \(z_L=0.336\) · Strong-lensing cluster</div>
+  <h2 id="summary">Summary of what we actually used</h2>
+  <div class="grid g-cols-2">
+    <div class="card">
+      <h3>Target</h3>
+      <p><strong>MACS J0138.0-2155</strong> (cluster lens). We assembled a minimal image set for lens inspection and radius/scale sanity checks.</p>
+      <ul class="small muted">
+        <li>Adopted lens redshift: <span class="kbd">z<sub>L</sub> = 0.336</span></li>
+        <li>Illustrative source redshift used in solver runs: <span class="kbd">z<sub>S</sub> = 1.949</span></li>
+        <li>Angular scale used during checks: <span class="kbd">4.962 kpc/arcsec</span> (for z<sub>L</sub>=0.336)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Products used (by pattern)</h3>
+      <p class="small">Images below reflect files present under <span class="kbd">~/Downloads/MAST_MACS_J0138/mastDownload</span> and/or <span class="kbd">~/macs-j0138_mast</span> after retrieval.</p>
+      <ul class="small">
+        <li>WFC3/IR F160W <span class="pill">drizzled</span> (⟶ lens inspection + cutouts)</li>
+        <li>WFC3/IR F105W <span class="pill">drizzled</span> (⟶ color/contrast)</li>
+        <li>WFC3/IR F110W <span class="pill">drizzled</span> (⟶ support)</li>
+        <li>ACS/WFC F555W <span class="pill">drc</span> (⟶ support)</li>
+      </ul>
+      <p class="small muted">JWST set was not used in this first pass.</p>
+    </div>
+  </div>
 
-      <div class="hero" style="margin-top:1rem">
-        <img src="/assets/img/macs-j0138.jpg" alt="HST cutout of MACS J0138 (cluster lens)">
+  <h2 id="dataset">Dataset inventory (exact parts we used)</h2>
+  <p class="muted small note">This table lists the specific missions/programs/filters and the file patterns actually consumed downstream (for cutouts, visualization, and WCS scale extraction). Program IDs reflect the filenames present in the working directory listing.</p>
+
+  <div class="card">
+    <table>
+      <thead><tr>
+        <th>Program</th><th>Instrument • Detector</th><th>Filter</th><th>MAST Product Type</th><th>File/Pattern (present & used)</th><th>Usage in this experiment</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>HST 14496</strong></td>
+          <td>WFC3/IR</td>
+          <td>F105W</td>
+          <td>DRZ (drizzled)</td>
+          <td><span class="kbd">hst_14496_01_wfc3_ir_f105w_*_drz*.fits/png</span></td>
+          <td>Visual inspection; potential cutout base; WCS scale check.</td>
+        </tr>
+        <tr>
+          <td><strong>HST 14496</strong></td>
+          <td>WFC3/IR</td>
+          <td>F160W</td>
+          <td>DRZ (drizzled)</td>
+          <td><span class="kbd">hst_14496_01_wfc3_ir_f160w_*_drz*.fits/png</span></td>
+          <td><strong>Primary</strong> image for lens arcs; cutouts; WCS scale extraction.</td>
+        </tr>
+        <tr>
+          <td><strong>HST 14496</strong></td>
+          <td>ACS/WFC</td>
+          <td>F555W</td>
+          <td>DRC (calibrated)</td>
+          <td><span class="kbd">hst_14496_02_acs_wfc_f555w_*_drc*.fits/png</span></td>
+          <td>Support image for color/structure; WCS cross-check.</td>
+        </tr>
+        <tr>
+          <td><strong>HST 15663</strong></td>
+          <td>WFC3/IR</td>
+          <td>F110W</td>
+          <td>DRZ (drizzled)</td>
+          <td><span class="kbd">hst_15663_2a_wfc3_ir_f110w_*_drz*.fits/png</span></td>
+          <td>Support image; optional cutout; WCS cross-check.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="small muted" style="margin-top:10px">
+      Directory evidence seen during setup included preview assets such as:
+      <span class="kbd">hst_14496_01_wfc3_ir_f105w_*_drz_preview.png</span>,
+      <span class="kbd">hst_14496_01_wfc3_ir_f160w_*_drz_preview.png</span>,
+      <span class="kbd">hst_14496_02_acs_wfc_f555w_*_drc_preview.png</span>,
+      <span class="kbd">hst_15663_2a_wfc3_ir_f110w_*_drz_preview.png</span>.
+    </div>
+  </div>
+
+  <h2 id="repro">Reproducibility: retrieval & verification</h2>
+
+  <div class="grid g-cols-2">
+    <div class="card">
+      <h3>Environment</h3>
+      <ul class="small">
+        <li>Python virtualenv: <span class="kbd">~/mastenv</span></li>
+        <li>Project roots: <span class="kbd">~/macs-j0138_mast</span>, <span class="kbd">~/Downloads/MAST_MACS_J0138/mastDownload</span></li>
+      </ul>
+      <div class="code small">
+        source ~/mastenv/bin/activate 2>/dev/null || source mastenv/bin/activate<br>
+        python --version
       </div>
+    </div>
 
-      <div style="margin-bottom:1rem">
-        <span class="pill">HST / MAST</span>
-        <span class="pill">Strong Lensing</span>
-        <span class="pill">NFW Profile</span>
-        <span class="pill">Reproducible Pipeline</span>
+    <div class="card">
+      <h3>Pull script + run</h3>
+      <p class="small">We used a simple puller (<span class="kbd">pull_macs_j0138.py</span>) to query & download from MAST with mission filters (HST) and filetype preferences (drizzled/ calibrated).</p>
+      <div class="code small">
+        # Inside ~/macs-j0138_mast<br>
+        python pull_macs_j0138.py --target "MACS J0138.0-2155" --radius 120 \
+          --missions HST --prefer drizzled --out ./ --save-manifest meta/macsj0138_products.csv
       </div>
+      <p class="small muted">Result manifest is stored at <span class="kbd">meta/macsj0138_products.csv</span> and JSONL mirror at <span class="kbd">meta/macsj0138_products.jsonl</span>.</p>
+    </div>
+  </div>
 
-      <section>
-        <h2>Purpose</h2>
-        <p>Fit an NFW halo to MACS J0138 using published constraints (Einstein radius \(\\theta_E\) and/or convergence \(\\kappa(R)\)), then
-        check internal consistency and log residuals. The objective is to determine whether a standard NFW halo within GR
-        explains the observed bending strength.</p>
-      </section>
+  <div class="grid g-cols-2">
+    <div class="card">
+      <h3>Sanity checks</h3>
+      <div class="code small">
+        ls -R ~/macs-j0138_mast<br>
+        wc -l meta/macsj0138_products.csv<br>
+        head -n 20 meta/macsj0138_products.csv
+      </div>
+      <p class="small">Expected structure:</p>
+      <ul class="small">
+        <li><span class="kbd">HST/</span> and/or <span class="kbd">JWST/</span> (unused for this pass)</li>
+        <li><span class="kbd">meta/macsj0138_products.csv</span> (manifest)</li>
+      </ul>
+    </div>
 
-      <section>
-        <h2>Key Formulas</h2>
-        <p><strong>NFW density</strong></p>
-        <div>$$
-          \\rho(r)=\\frac{\\rho_s}{(r/r_s)\\left(1+r/r_s\\right)^2}
-        $$</div>
+    <div class="card">
+      <h3>Checksums</h3>
+      <p class="small">Record per-file sums for reproducibility:</p>
+      <div class="code small">
+        cd ~/macs-j0138_mast<br>
+        find . -type f \( -name "*.fits" -o -name "*.png" \) -print0 | sort -z \
+          | xargs -0 sha256sum > meta/sha256sum.txt
+      </div>
+      <p class="small muted">Commit <span class="kbd">meta/sha256sum.txt</span> with this page.</p>
+    </div>
+  </div>
 
-        <p><strong>3D mass</strong></p>
-        <div>$$
-          M(<r)=4\\pi\\rho_s r_s^3\\left[\\ln\\!\\left(1+\\frac{r}{r_s}\\right)-\\frac{\\frac{r}{r_s}}{1+\\frac{r}{r_s}}\\right]
-        $$</div>
+  <h2 id="wcs">WCS, pixel scales, and cutout recipe</h2>
 
-        <p><strong>Critical surface density & Einstein condition</strong></p>
-        <div>$$
-          \\Sigma_{\\rm crit}=\\frac{c^2}{4\\pi G}\\frac{D_S}{D_L D_{LS}},\\qquad
-          \\bar{\\kappa}(\\theta_E)=1
-        $$</div>
-      </section>
+  <div class="grid g-cols-2">
+    <div class="card">
+      <h3>Pixel scale extraction</h3>
+      <p class="small">We read the CD matrix from the FITS header and compute the plate scale:</p>
+      <div class="code small">
+        python - &lt;&lt;'PY'<br>
+        import glob, numpy as np<br>
+        from astropy.io import fits<br>
+        from astropy.wcs import WCS<br>
+        from astropy.wcs.utils import proj_plane_pixel_scales<br>
+        <br>
+        # Example: prefer F160W DRZ for primary scale<br>
+        f = sorted(glob.glob("**/*f160w*drz*.fits", recursive=True))[0]<br>
+        hdr = fits.getheader(f)<br>
+        w = WCS(hdr)<br>
+        sx, sy = proj_plane_pixel_scales(w)  # in degrees/pixel<br>
+        # Convert to arcsec/pixel<br>
+        arcsec = 3600<br>
+        print(f, "->", float(sx*arcsec), "arcsec/pix (x) ;", float(sy*arcsec), "arcsec/pix (y)")<br>
+        PY
+      </div>
+      <p class="small muted">Typical WFC3/IR DRZ scales are ~0.06″/pix; ACS/WFC DRC ~0.05″/pix. We use the actual header values above.</p>
+    </div>
 
-      <section>
-        <h2>Datasets</h2>
-        <ul>
-          <li><strong>HST cutouts (context):</strong> downloaded from MAST for MACS J0138 (WFC3/IR F160W and others). Example path:
-            <code>~/Downloads/MAST_MACS_J0138/mastDownload/output/*cutout.fits</code></li>
-          <li><strong>Literature constraints:</strong> \(z_L=0.336\), \(z_S\) from MACS J0138 multiply-imaged SN host; published \(\\theta_E\) / \(\\kappa(R)\) values used for fitting and cross-check.</li>
-        </ul>
-        <p class="meta">We store pointers to raw sources in <code>data/</code> with a <code>README.sources.md</code> noting paper/Zenodo references.</p>
-      </section>
+    <div class="card">
+      <h3>Cutout convention</h3>
+      <p class="small">For quick visual + arc finding we used a centered square cutout:</p>
+      <ul class="small">
+        <li>Center: BCG (from <span class="kbd">data/bcg_center.txt</span> if present; otherwise visual centroid)</li>
+        <li>Size: <span class="kbd">60″ × 60″</span> (adjustable)</li>
+        <li>Primary plane: F160W DRZ</li>
+      </ul>
+      <div class="code small">
+        python - &lt;&lt;'PY'<br>
+        import os, numpy as np<br>
+        from astropy.io import fits<br>
+        from astropy.wcs import WCS<br>
+        from astropy.nddata import Cutout2D<br>
+        from astropy.coordinates import SkyCoord<br>
+        import astropy.units as u<br>
+        <br>
+        fits_path = sorted(__import__('glob').glob("**/*f160w*drz*.fits", recursive=True))[0]<br>
+        hdu = fits.open(fits_path)[0]<br>
+        w = WCS(hdu.header)<br>
+        # Example BCG (RA, Dec) placeholder — replace if file present<br>
+        if os.path.exists("data/bcg_center.txt"):<br>
+            ra, dec = np.loadtxt("data/bcg_center.txt")<br>
+        else:<br>
+            ra, dec = 24.5000, -21.9300  # placeholder; update with measured BCG<br>
+        c = SkyCoord(ra*u.deg, dec*u.deg, frame='icrs')<br>
+        size = (60*u.arcsec, 60*u.arcsec)<br>
+        cut = Cutout2D(hdu.data, c, size=size, wcs=w)<br>
+        hdu_cut = fits.PrimaryHDU(data=cut.data, header=cut.wcs.to_header())<br>
+        hdu_cut.writeto("output/macsj0138_f160w_60arcsec_cutout.fits", overwrite=True)<br>
+        print("Wrote output/macsj0138_f160w_60arcsec_cutout.fits")<br>
+        PY
+      </div>
+    </div>
+  </div>
 
-      <section>
-        <h2>Code Modules & Scripts</h2>
+  <h2 id="thetaE">θ<small>E</small> / NFW starter</h2>
+  <div class="card">
+    <p class="small">We ran an NFW lensing starter with an external M(<em>R*</em>) anchor to get a working θ<sub>E</sub> for MACS J0138 at z<sub>L</sub>=0.336, z<sub>S</sub>=1.949. Example output observed in our logs:</p>
+    <div class="code small">
+      # Example run (see nfw_lensing_starter.py)<br>
+      python nfw_lensing_starter.py \<br>
+      &nbsp;&nbsp;--zS 1.949 --solve-theta-from-mass 2.89e13 --Rstar 60 \<br>
+      &nbsp;&nbsp;--rs-min 150 --rs-max 800 --n 400 --concentration-sample 50<br>
+      <br>
+      [solve-theta] Using external M(&lt;R*&gt;): 2.89e+13 solMass at R*=60 kpc<br>
+      [solve-theta] -&gt; θ_E ≈ 13.03 arcsec, R_E ≈ 64.67 kpc<br>
+      z_L=0.336, z_S=1.949, scale=4.962 kpc/arcsec
+    </div>
+    <p class="small muted">These values are for orientation; formal fits will use measured arcs and the WCS scales above.</p>
+  </div>
 
-        <table>
-          <thead><tr><th>File</th><th>Role</th><th>Notable Args / I/O</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><code>download_macs_j0138_mast.py</code></td>
-              <td>Query MAST and fetch HST cutouts for MACS J0138.</td>
-              <td><em>Output:</em> FITS cutouts in <code>~/Downloads/MAST_MACS_J0138/mastDownload/output/</code></td>
-            </tr>
-            <tr>
-              <td><code>nfw_lensing_starter.py</code></td>
-              <td>Compute distances, solve \(\\theta_E\) from an external \(M(<R_*)\) or fit NFW \(\\rho_s, r_s\) grid.</td>
-              <td><em>Args (sample):</em> <code>--zS</code>, <code>--solve-theta-from-mass</code>, <code>--Rstar</code>, <code>--rs-min</code>, <code>--rs-max</code>, <code>--n</code>, <code>--concentration-sample</code>. <br><em>Output:</em> summary printout + figures in <code>output/</code>.</td>
-            </tr>
-            <tr>
-              <td><code>make_nfw_from_thetaE.py</code></td>
-              <td>Utility to invert an observed \(\\theta_E\) into a consistent \(\\{\\rho_s,r_s\\}\) locus / prior for the main fit.</td>
-              <td><em>Input:</em> observed \(\\theta_E\), \(z_L,z_S\). <em>Output:</em> JSON prior or grid CSV in <code>output/</code>.</td>
-            </tr>
-            <tr>
-              <td><code>analyze_ratio.py</code></td>
-              <td>Downstream diagnostic: computes global ratio statistics and residuals across panels; logs CI and rank stats (used across experiments).</td>
-              <td><em>Output:</em> <code>output/lenses_results.csv</code>, <code>output/lenses_summary.txt</code></td>
-            </tr>
-            <tr>
-              <td><code>ratio_residuals.py</code></td>
-              <td>Plots/prints model − data residuals, focusing on signed proxy residual definition used across panels.</td>
-              <td><em>Args:</em> dataset selectors; <em>Output:</em> PNGs + console stats.</td>
-            </tr>
-            <tr>
-              <td><code>scripts/plot_BH_GW.py</code></td>
-              <td>Shared plotting utilities (used for multi-panel style consistency).</td>
-              <td><em>Input:</em> CSVs; <em>Output:</em> figures in <code>output/</code>.</td>
-            </tr>
-          </tbody>
-        </table>
+  <h2 id="files">File tree (what matters)</h2>
+  <div class="grid g-cols-2">
+    <div class="card">
+      <h3>Inputs & outputs</h3>
+      <div class="code small">
+        ~/macs-j0138_mast/<br>
+        ├─ HST/  # downloaded HST products<br>
+        ├─ JWST/ # unused in this pass<br>
+        ├─ meta/<br>
+        │   ├─ macsj0138_products.csv     &lt;-- manifest<br>
+        │   └─ macsj0138_products.jsonl   &lt;-- manifest (jsonl)<br>
+        ├─ pull_macs_j0138.py             &lt;-- retrieval script<br>
+        └─ output/<br>
+            └─ macsj0138_f160w_60arcsec_cutout.fits<br>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Quick ls evidence</h3>
+      <div class="code small">
+        ls -R ~/macs-j0138_mast<br>
+        ls -R ~/Downloads/MAST_MACS_J0138/mastDownload
+      </div>
+      <p class="small muted">Presence of <span class="kbd">hst_14496_*</span> and <span class="kbd">hst_15663_*</span> previews confirms the program IDs we used.</p>
+    </div>
+  </div>
 
-        <p class="callout">While some utilities are shared with BH/GW panels, this page lists them for completeness because they were used to keep plotting and residual definitions consistent.</p>
-      </section>
+  <h2 id="what-does-this-mean">What does this mean?</h2>
+  <div class="card">
+    <p class="small">We now have a clean, reproducible “starter kit” for MACS J0138:</p>
+    <ul class="small">
+      <li><strong>Exactly which images</strong> we used (programs/filters/products) are documented above.</li>
+      <li><strong>WCS & pixel scales</strong> can be re-extracted from the headers, so everyone gets the same arcsec/pixel.</li>
+      <li><strong>Cutout recipe</strong> is deterministic (center + size), so thumbnails and overlays line up run-to-run.</li>
+      <li><strong>θ<sub>E</sub> scaffolding</strong> lets us fit NFW parameters or compare against published arc radii later.</li>
+    </ul>
+    <p class="small note">Bottom line: this page is the provenance record. If a value changes (e.g., better BCG center, different cutout size), update the specific line here and re-run the commands—your plots and numbers will remain traceable.</p>
+  </div>
 
-      <section>
-        <h2>Pipeline (Repro Steps)</h2>
+  <h2 id="next">Next actions</h2>
+  <div class="grid g-cols-2">
+    <div class="card">
+      <h3>Lock in provenance</h3>
+      <ol class="small">
+        <li>Run the checksum command and commit <span class="kbd">meta/sha256sum.txt</span>.</li>
+        <li>Append the pixel-scale console printouts to this page (or record in <span class="kbd">meta/notes.txt</span>).</li>
+        <li>If you refine the BCG center, update <span class="kbd">data/bcg_center.txt</span> and re-cut.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Prep for fitting</h3>
+      <ol class="small">
+        <li>Annotate observable arcs in the F160W cutout (ds9 regions or simple pixel coords).</li>
+        <li>Use those radii to refine θ<sub>E</sub> and seed NFW (ρ<sub>s</sub>, r<sub>s</sub>) grids.</li>
+        <li>Compare against literature arc radii as a cross-check.</li>
+      </ol>
+    </div>
+  </div>
 
-<pre><code># 1) Download imaging cutouts (context)
-python download_macs_j0138_mast.py
+  <div class="hr"></div>
+  <footer class="small muted">
+    © TinanaLabs • Research Assistant: Lyra • This page documents the exact data used in the first MACS J0138 MAST/HST pass for Temporal Lensing Theory.
+  </footer>
 
-# 2) Solve / fit NFW using a reference mass at R* or a literature θ_E
-# Example from our run log:
-# [solve-theta] Using external M(&lt;R*&gt;): 2.89e+13 solMass at R*=60 kpc
-# [solve-theta] -&gt; θ_E = 13.0326 arcsec, R_E = 64.6715 kpc
-# Distances: D_L=1023.55 Mpc, D_S=1774.28 Mpc
-
-/ home/USER/ratio_test/mastenv/bin/python3 nfw_lensing_starter.py \
-  --zS 1.949 --solve-theta-from-mass 2.89e13 --Rstar 60 \
-  --rs-min 150 --rs-max 800 --n 400 --concentration-sample 50
-
-# 3) (Optional) Convert a literature θ_E into an NFW prior grid
-python make_nfw_from_thetaE.py --thetaE-arcsec 13.03 --zL 0.336 --zS 1.949 -o output/nfw_prior.json
-
-# 4) Residual analysis & report artifacts
-python ratio_residuals.py --lenses-only
-python analyze_ratio.py
-</code></pre>
-
-        <p class="meta">Artifacts land in <code>output/</code> and <code>figures/</code>; source pointers in <code>data/</code>.</p>
-      </section>
-
-      <section>
-        <h2>Results Snapshot</h2>
-        <ul>
-          <li><strong>Solved Einstein radius:</strong> \(\\theta_E \\approx 13.03\\) arcsec (given \(M(<60\\,\\mathrm{kpc})=2.89\\times10^{13}M_\\odot\))</li>
-          <li><strong>Distances (flat ΛCDM):</strong> \(D_L \\approx 1023.6\\,\\mathrm{Mpc},\\ D_S \\approx 1774.3\\,\\mathrm{Mpc}\)</li>
-          <li><strong>Outputs:</strong> prior JSON / grid CSV; diagnostic plots (κ-profile and θ<sub>E</sub> checks)</li>
-        </ul>
-        <p class="callout">Final best-fit \(\\{\\rho_s,r_s\\}\) and 1σ intervals are updated after each re-run and posted in <code>nfw_fit.json</code>.</p>
-      </section>
-
-      <section>
-        <h2>Interpretation (What does this mean?)</h2>
-        <p>We test whether a standard dark-matter halo (NFW) under GR can reproduce the observed bending of light by the cluster.</p>
-        <ul>
-          <li>\(\\theta_E\) acts like the lens’s “ring size.” If the model gets this right, the overall mass scale is sensible.</li>
-          <li>\(\\rho_s\) (density scale) and \(r_s\) (scale radius) are the two knobs describing how mass is packed.</li>
-          <li>A good match to both \(\\theta_E\) and the detailed \(\\kappa(R)\) profile supports a normal halo explanation; a mismatch quantifies where our assumptions or inputs need revision — a key falsification lever for theory.</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>Artifacts & File Layout</h2>
-        <div class="grid grid-cols-2">
-          <div>
-            <h3>Inputs</h3>
-            <ul>
-              <li><code>data/</code> — references to literature values & cutout notes</li>
-              <li><code>~/Downloads/MAST_MACS_J0138/mastDownload/output/</code> — HST FITS cutouts</li>
-            </ul>
-          </div>
-          <div>
-            <h3>Outputs</h3>
-            <ul>
-              <li><code>output/</code> — tables (e.g., <code>nfw_fit.json</code>), summaries</li>
-              <li><code>figures/</code> — diagnostic plots</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Re-Run Checklist</h2>
-        <ol>
-          <li>Verify \(z_L, z_S\) and the latest \(\\theta_E\) / \(\\kappa(R)\) constraints in <code>data/</code>.</li>
-          <li>Re-generate NFW grid/prior if constraints changed.</li>
-          <li>Run <code>nfw_lensing_starter.py</code> with updated args; inspect <code>figures/</code>.</li>
-          <li>Update <code>nfw_fit.json</code> and regenerate the Results section.</li>
-        </ol>
-      </section>
-
-      <footer style="opacity:.7;margin-top:1rem">
-        Maintainer: Frank Tinana (with Lyra) · Last updated: 2025-09-02
-      </footer>
-    </article>
-
-    <p style="margin:1.5rem 0">
-      <a class="pill" href="/experiments/macs-j0138.html">← Summary Page</a>
-      <a class="pill" href="/experiments.html">All Experiments</a>
-    </p>
-  </main>
-
-  <footer class="site-footer"><div class="container">© TinanaLabs</div></footer>
+</div>
 </body>
 </html>

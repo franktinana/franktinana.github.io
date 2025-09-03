@@ -1,1 +1,5 @@
 experiments/*.tmp
+
+# editor/Windows artifacts
+*.old
+*Zone.Identifier
