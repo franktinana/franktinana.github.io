@@ -1,26 +1,49 @@
-[
-  {
-    "id": "mast-macs-j0138",
-    "title": "MAST: MACS J0138",
-    "summary": "HST/JWST assets and lensing meta for MACS J0138.",
-    "url": "/datasets/mast-macs-j0138/",
-    "source": "MAST",
-    "files": []
-  },
-  {
-    "id": "gw-event-set",
-    "title": "GW Event Set",
-    "summary": "Catalog selection used for GW residual tests.",
-    "url": "/datasets/gw-event-set/",
-    "source": "LIGO/Virgo/KAGRA",
-    "files": []
-  },
-  {
-    "id": "bh-rm-catalog",
-    "title": "BH RM Catalog",
-    "summary": "Reverberation-mapping anchors used in BH residual analysis.",
-    "url": "/datasets/bh-rm-catalog/",
-    "source": "RM compilations",
-    "files": []
-  }
-]
+{
+  "datasets": [
+    {
+      "slug": "mast-macs-j0138",
+      "title": "MACS J0138 — MAST/HST First Pass (NFW lensing setup)",
+      "description": "Precisely the HST cutouts and metadata used for the first MACS J0138 pass, plus the lensing starter configuration (θ_E, pixel scale, WCS centers).",
+      "last_updated": "2025-09-02",
+      "tags": ["HST", "MAST", "Cluster Lensing", "NFW"],
+      "url": "/datasets/mast-macs-j0138.html",
+      "files": [
+        { "name": "F160W cutout (FITS)", "path": "/data/macs-j0138/f160w_cutout.fits" },
+        { "name": "BCG center (txt)", "path": "/data/macs-j0138/bcg_center.txt" },
+        { "name": "Lensing starter config (JSON)", "path": "/data/macs-j0138/nfw_config.json" }
+      ],
+      "sources": [
+        { "name": "MAST Portal", "href": "https://archive.stsci.edu/" }
+      ]
+    },
+    {
+      "slug": "bh-merged",
+      "title": "Black Holes — Canonical + SDSS-RM (merged CSV)",
+      "description": "Compiled MBH dataset merging canonical anchors (e.g., Kormendy & Ho) with SDSS-RM entries. Used for BH vs GW residual cross-checks.",
+      "last_updated": "2025-09-03",
+      "tags": ["Black Holes", "AGN", "CSV"],
+      "url": "/datasets/bh-merged",
+      "files": [
+        { "name": "bh_merged.csv", "path": "/data/BH/bh_merged.csv" }
+      ],
+      "sources": [
+        { "name": "Bentz+ 2013", "href": "https://iopscience.iop.org/article/10.1088/0004-637X/767/2/149" },
+        { "name": "Kormendy & Ho 2013", "href": "https://www.annualreviews.org/doi/10.1146/annurev-astro-082708-101811" }
+      ]
+    },
+    {
+      "slug": "gwtc3",
+      "title": "Gravitational Waves — GWTC-3 event catalog (CSV)",
+      "description": "Compact binary coalescence events with masses and distances, normalized for residual analysis.",
+      "last_updated": "2025-09-03",
+      "tags": ["GW", "LIGO/Virgo/KAGRA", "CSV"],
+      "url": "/datasets/gwtc3",
+      "files": [
+        { "name": "gwtc3_events.csv", "path": "/data/GW/gwtc3_events.csv" }
+      ],
+      "sources": [
+        { "name": "GW Open Science", "href": "https://www.gw-openscience.org/" }
+      ]
+    }
+  ]
+}
