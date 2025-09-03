@@ -1,0 +1,15 @@
+---
+layout: null
+permalink: /api/experiments.json
+---
+[
+{% for e in site.experiments %}
+{
+  "title": {{ e.title | jsonify }},
+  "url": {{ e.url | relative_url | jsonify }},
+  "summary": {{ (e.summary | default: e.excerpt | default: "") | strip | jsonify }},
+  "images": {{ e.images | default: empty | jsonify }},
+  "updated": {{ e.last_modified_at | default: e.date | default: "" | jsonify }}
+}{% unless forloop.last %},{% endunless %}
+{% endfor %}
+]

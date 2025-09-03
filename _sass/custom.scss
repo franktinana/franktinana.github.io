@@ -1,25 +1,13 @@
-:root{
-  --bg-1:#050913; --bg-2:#0a0f25; --card:#0f142b; --ink:#f2f5ff; --ink-2:#b9c0d4;
-  --accent:#7aa2ff; --border:#1b2344;
-}
+:root{--bg-1:#050913;--bg-2:#0a0f25;--card:#0f142b;--ink:#f2f5ff;--ink-2:#b9c0d4;--accent:#7aa2ff;--border:#1b2344;}
 html,body{background:radial-gradient(1200px 800px at 20% -10%,var(--bg-2),var(--bg-1)) fixed;min-height:100%}
 body{color:var(--ink);max-width:1100px;margin:2rem auto;padding:0 1rem;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-
-a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 h1{font-size:2.6rem;font-weight:900;margin:.2rem 0 1rem}
-h2{font-size:1.6rem;font-weight:800;margin:0 0 .75rem 0}
-h3{font-size:1.1rem;font-weight:800;margin:0 0 .5rem 0}
+h2{font-size:1.6rem;font-weight:800;margin:0 0 .75rem}
+h3{font-size:1.1rem;font-weight:800;margin:0 0 .5rem}
 .meta{color:var(--ink-2)}
-
-.site-nav a{color:var(--ink);opacity:.9;margin-right:1rem} .site-nav a:hover{opacity:1}
-.card{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
-  border:1px solid var(--border);border-radius:16px;padding:1rem 1.2rem;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-.layout-grid{display:grid;grid-template-columns:320px 1fr;gap:1.5rem}
-.sidebar{position:sticky;top:1rem;height:fit-content}
-.chips{display:flex;flex-wrap:wrap;gap:.5rem}
-.chip{display:inline-flex;align-items:center;border:1px solid var(--border);background:rgba(255,255,255,.06);
-  border-radius:999px;padding:.25rem .7rem;color:var(--ink);font-size:.9rem}
-
-.status{border:1px solid var(--border);border-radius:16px;padding:1rem;background:rgba(10,15,37,.55)}
-.status .bar{background:#1b2344;height:8px;border-radius:6px;overflow:hidden;margin:.4rem 0 .7rem}
-.status .fill{height:8px;background:var(--accent)}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid var(--border);border-radius:16px;padding:1rem 1.2rem;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.badge{display:inline-flex;align-items:center;border:1px solid var(--border);background:rgba(255,255,255,.06);border-radius:999px;padding:.25rem .7rem;margin-right:.5rem;margin-bottom:.5rem;color:var(--ink);font-size:.85rem}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem}
+.nav a{color:var(--ink);opacity:.9;margin-right:1rem} .nav a:hover{opacity:1}
