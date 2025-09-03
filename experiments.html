@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Experiments | TinanaLabs</title>
+  <link rel="stylesheet" href="/assets/main.css">
+  <style>
+    .grid{display:grid;gap:1rem}
+    @media(min-width:840px){.grid-cols-3{grid-template-columns:1fr 1fr 1fr}}
+    .card{border-radius:16px;padding:1rem;background:rgba(255,255,255,.03);box-shadow:0 10px 24px rgba(0,0,0,.15)}
+    .card:hover{transform:translateY(-2px)}
+    .thumb{border-radius:12px;overflow:hidden;margin-bottom:.8rem}
+    .thumb img{width:100%;display:block}
+    .pill{display:inline-block;padding:.25rem .6rem;border:1px solid rgba(255,255,255,.15);border-radius:999px;font-size:.8rem;opacity:.9;margin-right:.5rem;margin-bottom:.5rem}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand">TinanaLabs</a>
+      <nav class="nav"><a href="/index.html">Home</a><a href="/experiments.html" aria-current="page">Experiments</a><a href="/processes.html">Processes</a></nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:2rem">
+    <h1 style="margin-bottom:.25rem">Experiments</h1>
+    <p style="opacity:.75;margin-bottom:1.25rem">Current analyses and falsification tests across lenses, gravitational waves, and black holes.</p>
+
+    <div class="grid grid-cols-3">
+
+      <!-- MACS J0138 -->
+      <a class="card" href="/experiments/macs-j0138.html" style="text-decoration:none;color:inherit">
+        <div class="thumb"><img src="/assets/img/macs-j0138-thumb.jpg" alt="MACS J0138 thumbnail"></div>
+        <h3>MACS J0138 — NFW Fit</h3>
+        <p>Cluster lens: NFW fit and θ<sub>E</sub> cross-check for MACS J0138.</p>
+        <div style="margin-top:.5rem">
+          <span class="pill">Strong Lensing</span><span class="pill">NFW</span><span class="pill">HST/MAST</span>
+        </div>
+        <p style="margin-top:.65rem"><em>Full pipeline:</em> <a href="/experiments/macs-j0138-details.html">details →</a></p>
+      </a>
+
+      <!-- GW Timing Residuals -->
+      <a class="card" href="/experiments/gw-residuals.html" style="text-decoration:none;color:inherit">
+        <div class="thumb"><img src="/assets/img/gw-thumb.jpg" alt="GW residuals thumbnail"></div>
+        <h3>Gravitational Waves — Timing Residuals</h3>
+        <p>Compare predicted vs observed timing residuals (model falsification test).</p>
+        <div style="margin-top:.5rem">
+          <span class="pill">PTA/LIGO</span><span class="pill">Residuals</span><span class="pill">Model Check</span>
+        </div>
+      </a>
+
+      <!-- BH Reverberation -->
+      <a class="card" href="/experiments/bh-reverberation.html" style="text-decoration:none;color:inherit">
+        <div class="thumb"><img src="/assets/img/bh-thumb.jpg" alt="BH reverberation thumbnail"></div>
+        <h3>Black Holes — Reverberation Residuals</h3>
+        <p>Residual analysis using BH reverberation-mapping anchors.</p>
+        <div style="margin-top:.5rem">
+          <span class="pill">RM</span><span class="pill">AGN</span><span class="pill">Consistency</span>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <footer class="site-footer"><div class="container">© TinanaLabs</div></footer>
+</body>
+</html>
