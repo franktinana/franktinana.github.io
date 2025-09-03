@@ -1,21 +1,26 @@
----
-layout: null
-permalink: /api/datasets.json
----
 [
-{% assign items = site.datasets %}
-{% for d in items %}
   {
-    "title": {{ d.title | jsonify }},
-    "summary": {{ (d.summary | default: d.excerpt | default: "") | strip | jsonify }},
-    "url": {{ d.url | relative_url | jsonify }},
-    "links": [
-      {% assign links = d.links | default: empty %}
-      {% for L in links %}
-        { "href": {{ L.href | jsonify }}, "text": {{ L.text | default: L.href | jsonify }} }{% unless forloop.last %},{% endunless %}
-      {% endfor %}
-    ]
-  }{% unless forloop.last %},{% endunless %}
-{% endfor %}
+    "id": "mast-macs-j0138",
+    "title": "MAST: MACS J0138",
+    "summary": "HST/JWST assets and lensing meta for MACS J0138.",
+    "url": "/datasets/mast-macs-j0138/",
+    "source": "MAST",
+    "files": []
+  },
+  {
+    "id": "gw-event-set",
+    "title": "GW Event Set",
+    "summary": "Catalog selection used for GW residual tests.",
+    "url": "/datasets/gw-event-set/",
+    "source": "LIGO/Virgo/KAGRA",
+    "files": []
+  },
+  {
+    "id": "bh-rm-catalog",
+    "title": "BH RM Catalog",
+    "summary": "Reverberation-mapping anchors used in BH residual analysis.",
+    "url": "/datasets/bh-rm-catalog/",
+    "source": "RM compilations",
+    "files": []
+  }
 ]
-JSON
