@@ -17,6 +17,7 @@ layout: null
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <script type="text/babel">
+  {% raw %}
     const Card = ({children}) => <div className="card">{children}</div>;
 
     function Datasets(){
@@ -72,6 +73,7 @@ layout: null
     }
 
     ReactDOM.createRoot(document.getElementById('app')).render(<Datasets />);
+    {% endraw %}
   </script>
 </body>
 </html>
