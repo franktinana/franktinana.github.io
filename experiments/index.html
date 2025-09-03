@@ -20,11 +20,19 @@ layout: null
 
     function Experiments(){
       const [items,setItems] = React.useState(null);
-      React.useEffect(()=>{ fetch('/api/experiments.json').then(r=>r.json()).then(setItems); },[]);
-      if(!items) return <div style={{padding:'2rem'}}>Loading…</div>;
+      const [err,setErr] = React.useState(null);
+
+      React.useEffect(()=>{
+        fetch('/api/experiments.json')
+          .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+          .then(setItems)
+          .catch(e=> setErr(String(e)));
+      },[]);
+
+      const bg = {background:'radial-gradient(1200px 800px at 20% -10%, #0a0f25, #050913)'};
 
       return (
-        <div style={{background:'radial-gradient(1200px 800px at 20% -10%, #0a0f25, #050913)'}}>
+        <div style={bg}>
           <header style={{maxWidth:1100,margin:'0 auto',padding:'2rem 1rem 0'}}>
             <div className="header">
               <div className="header-title">TinanaLabs</div>
@@ -37,11 +45,14 @@ layout: null
                 <a href="/notes/">Lab Notes</a>
               </nav>
             </div>
-            <h1 style="margin:0">Experiments</h1>
+            <h1 style="margin:1rem 0 0 0">Experiments</h1>
           </header>
 
           <main style={{maxWidth:1100,margin:'0 auto',padding:'0 1rem 3rem'}}>
-            <div className="grid">
+            {err && <div className="card" style={{borderColor:'#e66'}}>Error loading /api/experiments.json: {err}</div>}
+            {!items && !err && <div style={{padding:'2rem'}}>Loading…</div>}
+
+            {items && <div className="grid">
               {items.map((e, i)=>(
                 <Card key={i}>
                   <h3 style={{marginTop:0}}><a href={e.url}>{e.title}</a></h3>
@@ -51,7 +62,7 @@ layout: null
                   }
                 </Card>
               ))}
-            </div>
+            </div>}
           </main>
         </div>
       );

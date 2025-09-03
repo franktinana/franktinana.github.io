@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>{{ page.title | default: site.title }}</title>
+  {%- seo -%}
   <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
 </head>
 <body>
@@ -11,11 +12,11 @@
       <div class="header-title">TinanaLabs</div>
       <nav class="nav">
         <a href="{{ '/' | relative_url }}">Home</a>
-        <a href="{{ '/experiments/' | relative_url }}">Experiments</a>
-        <a href="{{ '/processes/' | relative_url }}">Processes</a>
-        <a href="{{ '/datasets/' | relative_url }}">Datasets</a>
-        <a href="{{ '/publications/' | relative_url }}">Publications</a>
-        <a href="{{ '/notes/' | relative_url }}">Lab Notes</a>
+        <a href="{{ '/experiments/'   | relative_url }}">Experiments</a>
+        <a href="{{ '/processes/'     | relative_url }}">Processes</a>
+        <a href="{{ '/datasets/'      | relative_url }}">Datasets</a>
+        <a href="{{ '/publications/'  | relative_url }}">Publications</a>
+        <a href="{{ '/notes/'         | relative_url }}">Lab Notes</a>
       </nav>
     </div>
   </header>
@@ -23,5 +24,9 @@
   <main style="max-width:1100px;margin:0 auto;padding:0 1rem 3rem;">
     {{ content }}
   </main>
+
+  <footer class="meta" style="max-width:1100px;margin:0 auto;padding:0 1rem 2rem;">
+    <hr><p>&copy; {{ "now" | date: "%Y" }} TinanaLabs</p>
+  </footer>
 </body>
 </html>
